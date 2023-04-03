@@ -1,13 +1,8 @@
 {{ define "carts-build" }}
 ---
-{{ $_ := set . "BaseImage" "ubuntu:22.04" }}
-
 image: builder
-from: {{ .BaseImage }}
+from: openjdk:8-alpine
 shell:
-  beforeInstall:
-   - apt update -q
-   - apt install -y mvn
   install:
   - mvn -DskipTests package
 {{ end }}
