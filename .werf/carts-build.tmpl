@@ -1,29 +1,11 @@
-{{ define "package:build-tools" }}
-  - apt update -q
-  - apt install -y mvn
-{{ end }}
----
-{{ define "carts-build" }}
 {{ $_ := set . "BaseImage" "ubuntu:22.04" }}
-{{ end }}
 
 image: builder
 from: {{ .BaseImage }}
 shell:
   beforeInstall:
-{{ include "package:build-tools" .}}
+   - apt update -q
+   - apt install -y mvn
   install:
   - mvn -DskipTests package
---
-image: carts
-from: openjdk:8-alpine
-import:
-- image: builder
-  add: /app/build/app
-  to: /usr/src/app
-  after: install
-docker:
-  WORKDIR /usr/src/app
-  COPY ./target/*.jar ./app.jar
-  ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","./app.jar", "--port=80"]
 

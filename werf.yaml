@@ -1,6 +1,9 @@
 project: sockshop
 configVersion: 1
 ---
+{{ $_ := set $ "ServicePath" "src/carts" }}
+{{ include "carts-build" $ }}
+
 {{ $_ := set $ "Dockerfile" "src/catalogue/docker/catalogue-db/Dockerfile" }}
 {{ include "docker-build" $ }}
 
