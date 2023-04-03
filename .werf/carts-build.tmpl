@@ -1,8 +1,12 @@
 {{ define "carts-build" }}
 ---
+{{ $_ := set . "BaseImage" "openjdk:11.0.16-jdk-slim" }}
+
 image: builder
-from: openjdk:8-alpine
+from: {{ .BaseImage }}
 shell:
   install:
+   - apt update -q
+  setup:
   - mvn -DskipTests package
 {{ end }}
