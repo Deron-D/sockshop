@@ -16,9 +16,9 @@
 [submodule "src/catalogue"]
 	path = src/catalogue
 	url = git@github.com:Deron-D/catalogue.git
-[submodule "src/carts"]
-	path = src/carts
-	url = git@github.com:Deron-D/carts.git
 [submodule "src/orders"]
 	path = src/orders
 	url = git@github.com:Deron-D/orders.git
+[submodule "src/carts"]
+	path = src/carts
+	url = git@github.com:Deron-D/carts.git
