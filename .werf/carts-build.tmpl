@@ -1,12 +1,6 @@
 {{ define "carts-build" }}
 ---
-{{ $_ := set . "BaseImage" "openjdk:11.0.16-jdk-slim" }}
-
-image: build-{{ $serviceName }}
-from: {{ .BaseImage }}
-shell:
-  install:
-   - apt update -q
-  setup:
-  - mvn -DskipTests package
+image: {{ base (dir .Dockerfile) }}
+dockerfile: {{ base .Dockerfile }}
+context: {{ dir .Dockerfile }}
 {{ end }}
