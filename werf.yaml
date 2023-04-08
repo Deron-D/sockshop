@@ -2,7 +2,7 @@ project: sockshop
 configVersion: 1
 ---
 {{ $_ := set $ "Dockerfile" "src/carts/Dockerfile" }}
-{{ include "cart-build" $ }}
+{{ include "carts-build" $ }}
 
 {{ $_ := set $ "Dockerfile" "src/catalogue/docker/catalogue-db/Dockerfile" }}
 {{ include "docker-build" $ }}
