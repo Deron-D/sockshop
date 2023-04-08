@@ -1,0 +1,24 @@
+[submodule "src/carts"]
+	path = src/carts
+	url = git@github.com:microservices-demo/carts.git
+[submodule "src/front-end"]
+	path = src/front-end
+	url = git@github.com:microservices-demo/front-end.git
+[submodule "src/user"]
+	path = src/user
+	url = git@github.com:microservices-demo/user.git
+[submodule "src/shipping"]
+	path = src/shipping
+	url = git@github.com:microservices-demo/shipping.git
+[submodule "src/queue-master"]
+	path = src/queue-master
+	url = git@github.com:microservices-demo/queue-master.git
+[submodule "src/msd-java"]
+	path = src/msd-java
+	url = git@github.com:microservices-demo/msd-java.git
+[submodule "src/catalogue"]
+	path = src/catalogue
+	url = git@github.com:microservices-demo/catalogue.git
+[submodule "src/orders"]
+	path = src/orders
+	url = git@github.com:microservices-demo/orders.git
