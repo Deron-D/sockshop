@@ -1,0 +1,6 @@
+{{ define "front-end-build" }}
+---
+image: {{ base (dir .Dockerfile) }}
+dockerfile: {{ base .Dockerfile }}
+context: {{ dir .Dockerfile }}
+{{ end }}
