@@ -1,13 +1,13 @@
 project: sockshop
 configVersion: 1
 ---
-{{ /*
+{{/*
 {{ $_ := set $ "Dockerfile" "src/carts/Dockerfile" }}
 {{ include "carts-build" $ }} -->
   
 {{ $_ := set $ "Dockerfile" "src/catalogue/docker/catalogue-db/Dockerfile" }}
 {{ include "docker-build" $ }}
-/* }}
+/*}}
 
 {{ $_ := set $ "Dockerfile" "src/front-end/Dockerfile" }}
 {{ include "front-end-build" $ }}
