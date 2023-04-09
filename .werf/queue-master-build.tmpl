@@ -1,0 +1,6 @@
+{{ define "orders-build" }}
+---
+image: {{ base (dir .Dockerfile) }}
+dockerfile: docker/orders/Dockerfile.github
+context: src/orders
+{{ end }}

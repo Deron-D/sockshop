@@ -1,5 +1,5 @@
 project: sockshop
 configVersion: 1
 ---
-{{ $_ := set $ "Dockerfile" "src/front-end/Dockerfile" }}
-{{ include "front-end-build" $ }}
+{{ $_ := set $ "Dockerfile" "src/shipping/docker/shipping/Dockerfile" }}
+{{ include "shipping-build" $ }}
