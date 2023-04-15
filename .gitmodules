@@ -1,9 +1,6 @@
 [submodule "src/queue-master"]
 	path = src/queue-master
 	url = git@github.com:microservices-demo/queue-master.git
-[submodule "carts"]
-	path = carts
-	url = git@github.com:microservices-demo/carts.git
 [submodule "front-end"]
 	path = front-end
 	url = git@github.com:microservices-demo/front-end.git
