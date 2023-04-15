@@ -1,5 +1,6 @@
 project: sockshop
 configVersion: 1
 ---
-{{ $_ := set $ "Dockerfile" "src/shipping/docker/shipping/Dockerfile" }}
-{{ include "shipping-build" $ }}
+image: carts
+dockerfile: src/carts/Dockerfile
+context: ./
