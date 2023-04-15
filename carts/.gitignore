@@ -36,8 +36,8 @@ _testmain.go
 *.test
 *.prof
 ### Java template
-/target/
-*.class
+#/target/
+#*.class
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -103,8 +103,8 @@ fabric.properties
 # Created by .ignore support plugin (hsz.mobi)
 
 # Maven builds
-*/target
-*/*/target
+#*/target
+#*/*/target
 
 # AWS ECS install scripts generates an SSH key file
 weave-ecs-demo-key.pem
