@@ -1,24 +1,3 @@
 [submodule "src/queue-master"]
 	path = src/queue-master
 	url = git@github.com:microservices-demo/queue-master.git
-[submodule "front-end"]
-	path = front-end
-	url = git@github.com:microservices-demo/front-end.git
-[submodule "user"]
-	path = user
-	url = git@github.com:microservices-demo/user.git
-[submodule "shipping"]
-	path = shipping
-	url = git@github.com:microservices-demo/shipping.git
-[submodule "queue-master"]
-	path = queue-master
-	url = git@github.com:microservices-demo/queue-master.git
-[submodule "msd-java"]
-	path = msd-java
-	url = git@github.com:microservices-demo/msd-java.git
-[submodule "catalogue"]
-	path = catalogue
-	url = git@github.com:microservices-demo/catalogue.git
-[submodule "orders"]
-	path = orders
-	url = git@github.com:microservices-demo/orders.git
