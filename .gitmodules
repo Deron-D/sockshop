@@ -16,9 +16,6 @@
 [submodule "msd-java"]
 	path = msd-java
 	url = git@github.com:Deron-D/msd-java.git
-[submodule "catalogue"]
-	path = catalogue
-	url = git@github.com:Deron-D/catalogue.git
 [submodule "orders"]
 	path = orders
 	url = git@github.com:Deron-D/orders.git
