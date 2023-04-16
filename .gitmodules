@@ -1,0 +1,24 @@
+[submodule "carts"]
+	path = carts
+	url = git@github.com:Deron-D/carts.git
+[submodule "front-end"]
+	path = front-end
+	url = git@github.com:Deron-D/front-end.git
+[submodule "user"]
+	path = user
+	url = git@github.com:Deron-D/user.git
+[submodule "shipping"]
+	path = shipping
+	url = git@github.com:Deron-D/shipping.git
+[submodule "queue-master"]
+	path = queue-master
+	url = git@github.com:Deron-D/queue-master.git
+[submodule "msd-java"]
+	path = msd-java
+	url = git@github.com:Deron-D/msd-java.git
+[submodule "catalogue"]
+	path = catalogue
+	url = git@github.com:Deron-D/catalogue.git
+[submodule "orders"]
+	path = orders
+	url = git@github.com:Deron-D/orders.git
