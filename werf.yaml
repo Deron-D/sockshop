@@ -12,3 +12,6 @@ configVersion: 1
 
 {{ $_ := set $ "Dockerfile" "front-end/Dockerfile" }}
 {{ include "front-end-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "orders/docker/orders/Dockerfile.github" }}
+{{ include "orders-build" $ }}
