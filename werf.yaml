@@ -3,3 +3,12 @@ configVersion: 1
 ---
 {{ $_ := set $ "Dockerfile" "carts/Dockerfile" }}
 {{ include "carts-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "catalogue/docker/catalogue/Dockerfile" }}
+{{ include "catalogue-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "catalogue/docker/catalogue-db/Dockerfile" }}
+{{ include "catalogue-db-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "front-end/Dockerfile" }}
+{{ include "front-end-build" $ }}
