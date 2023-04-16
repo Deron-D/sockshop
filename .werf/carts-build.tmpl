@@ -1,6 +1,6 @@
 {{ define "carts-build" }}
 ---
-image: {{ base (dir .Dockerfile) }}
+image: carts
 dockerfile: {{ base .Dockerfile }}
 context: {{ dir .Dockerfile }}
 {{ end }}

@@ -1,6 +1,6 @@
 {{ define "catalogue-build" }}
 ---
-image: {{ base (dir .Dockerfile) }}
+image: catalogue
 dockerfile: ./docker/catalogue/Dockerfile
 context: catalogue
 {{ end }}

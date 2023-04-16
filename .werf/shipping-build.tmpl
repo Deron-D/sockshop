@@ -1,6 +1,6 @@
 {{ define "shipping-build" }}
 ---
-image: {{ base (dir .Dockerfile) }}
-dockerfile: {{ base .Dockerfile }}
-context: {{ dir .Dockerfile }}
+image: shipping
+dockerfile: ./docker/shipping/Dockerfile
+context: shipping
 {{ end }}

@@ -1,6 +1,6 @@
 {{ define "queue-master-build" }}
 ---
-image: {{ base (dir .Dockerfile) }}
+image: queue-master
 dockerfile: {{ base .Dockerfile }}
 context: {{ dir .Dockerfile }}
 {{ end }}

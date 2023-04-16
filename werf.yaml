@@ -18,3 +18,9 @@ configVersion: 1
 
 {{ $_ := set $ "Dockerfile" "queue-master/Dockerfile" }}
 {{ include "queue-master-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "shipping/docker/shipping/Dockerfile" }}
+{{ include "shipping-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "payment/docker/payment/Dockerfile" }}
+{{ include "payment-build" $ }}
