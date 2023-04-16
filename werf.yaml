@@ -15,3 +15,6 @@ configVersion: 1
 
 {{ $_ := set $ "Dockerfile" "orders/docker/orders/Dockerfile.github" }}
 {{ include "orders-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "queue-master/Dockerfile" }}
+{{ include "queue-master-build" $ }}

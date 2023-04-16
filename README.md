@@ -13,9 +13,9 @@ Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-
 - user
 
 ~~~bash
-cd orders
+cd queue-master
 git commit -am 'WIP'
 git push
-cd cd..
+cd ..
 werf build --dev
 ~~~
