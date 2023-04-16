@@ -1,6 +1,6 @@
 {{ define "user-db-build" }}
 ---
-image: {{ base (dir .Dockerfile) }}
-dockerfile: {{ base .Dockerfile }}
-context: {{ dir .Dockerfile }}
+image: user-db
+dockerfile: ./Dockerfile
+context: user/docker/user-db
 {{ end }}

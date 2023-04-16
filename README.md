@@ -3,21 +3,21 @@ Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-
 
 ## Services
 
-    - carts (Java)
-    - catalogue (Go)
-    - catalogue-db (MySQL)
-    - front-end (Node.js)
-    - orders (Java)
-    - queue-master (Java)
-    - shipping (Java)
-- 
-- payment (Go)
+1. carts (Java)
+2. catalogue (Go)
+3. catalogue-db (MySQL)
+4. front-end (Node.js)
+5. orders (Java)
+6. queue-master (Java)
+7. shipping (Java)
+8. payment (Go)
 
-- user
+- user (Go)
+- user-db (Mongo)
 
 
 ~~~bash
-cd payment
+cd user
 git commit -am 'WIP'
 git push
 cd ..

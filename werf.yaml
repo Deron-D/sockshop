@@ -24,3 +24,9 @@ configVersion: 1
 
 {{ $_ := set $ "Dockerfile" "payment/docker/payment/Dockerfile" }}
 {{ include "payment-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "user/docker/user/Dockerfile-release" }}
+{{ include "user-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "user/docker/user-db/Dockerfile" }}
+{{ include "user-db-build" $ }}
