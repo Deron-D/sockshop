@@ -1,0 +1,3 @@
+[submodule "carts"]
+	path = carts
+	url = git@github.com:microservices-demo/carts.git

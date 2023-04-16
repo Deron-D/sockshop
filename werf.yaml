@@ -1,6 +1,5 @@
 project: sockshop
 configVersion: 1
 ---
-image: carts
-dockerfile: carts/Dockerfile
-context: .
+{{ $_ := set $ "Dockerfile" "carts/Dockerfile" }}
+{{ include "carts-build" $ }}

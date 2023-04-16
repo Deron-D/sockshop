@@ -8,7 +8,7 @@ git rm -f msd-java
 git rm -f catalogue
 git rm -f orders
 git commit -am "Submodules remove"
-#git submodule add -f git@github.com:microservices-demo/carts.git carts
+#git submodule add -f git@github.com:microservices-demo/carts.git src/carts
 #git submodule add -f git@github.com:microservices-demo/front-end.git front-end
 #git submodule add -f git@github.com:microservices-demo/user.git user
 #git submodule add -f git@github.com:microservices-demo/shipping.git shipping
