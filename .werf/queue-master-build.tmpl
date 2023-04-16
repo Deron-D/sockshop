@@ -1,6 +1,6 @@
-{{ define "orders-build" }}
+{{ define "queue-master-build" }}
 ---
 image: {{ base (dir .Dockerfile) }}
 dockerfile: docker/orders/Dockerfile.github
-context: src/orders
+context: orders
 {{ end }}

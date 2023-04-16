@@ -16,6 +16,6 @@ Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-
 cd orders
 git commit -am 'WIP'
 git push
-cd ..
+cd cd..
 werf build --dev
 ~~~
