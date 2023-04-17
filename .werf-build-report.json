@@ -1,48 +1,3 @@
-# sock-shop
-Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-12 graduation project.
-
-## Services
-
-1. carts (Java)
-2. catalogue (Go)
-3. catalogue-db (MySQL)
-4. front-end (Node.js)
-5. orders (Java)
-6. queue-master (Java)
-7. shipping (Java)
-8. payment (Go)
-9. user (Go)
-10. user-db (Mongo)
-
-
-# CI 
-
-- Загрузка и обновление сабмодулей
-~~~bash
-git submodule update --init --recursive
-~~~
-
-- Для запуска локальной сборки и проверки CI необходима установка утилиты werf 1.2
-> https://ru.werf.io/installation.html?version=1.2&channel=stable&os=linux&arch=amd64&method=installer
-
-- Установка werf (Linux). Инструкции по установке на других ОС приведены по ссылке выше.
-~~~bash
-curl -sSLO https://werf.io/install.sh && chmod +x install.sh
-./install.sh --version 1.2 --channel stable
-~~~
-
-После активации werf должен быть доступен в той же shell-сессии, в которой он был активирован:
-~~~bash
-werf version
-~~~
-
-- Запуск локальной сборки
-~~~bash
-werf build --save-build-report --dev
-cat .werf-build-report.json 
-~~~
-
-~~~json
 {
 	"Images": {
 		"carts": {
@@ -138,4 +93,3 @@ cat .werf-build-report.json
 	},
 	"ImagesByPlatform": {}
 }
-~~~
