@@ -33,6 +33,7 @@ resource "yandex_kubernetes_node_group" "default-pool" {
   name       = "default-pool"
 
   instance_template {
+    name        = "${var.cluster_name}-node{instance.index}"
     platform_id = var.platform_id
     network_interface {
       nat        = true

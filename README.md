@@ -139,3 +139,11 @@ cat .werf-build-report.json
 	"ImagesByPlatform": {}
 }
 ~~~
+
+- Развертывание кластера K8s
+~~~bash
+cd terraform-k8s
+terraform init
+terraform apply --auto-approve
+~~~
+
