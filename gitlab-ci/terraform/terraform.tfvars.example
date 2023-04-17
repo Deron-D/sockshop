@@ -1,0 +1,13 @@
+cloud_id = "exampleexampleexample"
+folder_id = "exampleexampleexample"
+zone = "ru-central1-a"
+image_id = "fd8ca4r646hsuc5mjes4"
+public_key_path = "~/.ssh/appuser.pub"
+subnet_id = "exampleexampleexample"
+service_account_key_file = "key.json"
+private_key_path = "~/.ssh/appuser"
+count_of_instances = 1
+cpu = 4
+memory = 8
+token                    = "token"
+

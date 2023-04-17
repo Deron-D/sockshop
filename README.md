@@ -147,3 +147,10 @@ terraform init
 terraform apply --auto-approve
 ~~~
 
+> https://cloud.yandex.com/en-ru/docs/tutorials/infrastructure-management/gitlab-containers
+- Развертывание GitLab CI
+~~~
+cd gitlab-ci/terraform
+terraform init
+terraform apply --auto-approve
+~~~
