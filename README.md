@@ -153,4 +153,15 @@ terraform apply --auto-approve
 cd gitlab-ci/terraform
 terraform init
 terraform apply --auto-approve
+yc compute instance list | grep gitlab
 ~~~
+
+~~~bash
+ssh ubuntu@51.250.35.60 -i ~/.ssh/appuser
+~~~
+
+- Ставим ssl по https://docs.gitlab.com/omnibus/settings/ssl/
+
+> https://gitlab.51.250.35.60.sslip.io/users/sign_in
+
+![img.png](img.png) 
