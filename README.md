@@ -154,14 +154,29 @@ cd gitlab-ci/terraform
 terraform init
 terraform apply --auto-approve
 yc compute instance list | grep gitlab
+yc vpc address list 
 ~~~
 
 ~~~bash
-ssh ubuntu@51.250.35.60 -i ~/.ssh/appuser
+yc vpc address update --reserved=true b0cbp5ihggpv7p7d4tf3
+ssh ubuntu@84.201.150.198 -i ~/.ssh/appuser
 ~~~
 
 - Ставим ssl по https://docs.gitlab.com/omnibus/settings/ssl/
 
-> https://gitlab.51.250.35.60.sslip.io/users/sign_in
+> https://gitlab.84.201.150.198.sslip.io/
 
-![img.png](img.png) 
+![img.png](img.png)
+ 
+
+### Полезное
+
+Stop
+~~~bash
+yc compute instance stop gitlab-ci-vm-0
+~~~
+
+Start
+~~~bash
+yc compute instance start gitlab-ci-vm-0
+~~~
