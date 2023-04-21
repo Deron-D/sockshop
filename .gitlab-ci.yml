@@ -1,4 +1,35 @@
-deploy:
+stages:
+  - build
+  - deploy
+
+variables:
+  WERF_IMAGES_REPO_MODE: monorepo
+
+.init_werf_script: &init_werf_script
+  - type multiwerf && . $(multiwerf use 1.2 beta --as-file)
+  - type werf && source $(werf ci-env gitlab --as-file)
+
+.base_werf:
+  before_script:
+    - *init_werf_script
+
+Build and Publish:
+  extends: .base_werf
+  stage: build
+  image:
+    name: registry.werf.io/werf/werf:1.2
+  variables:
+    WERF_TMP_DIR: /tmp/job-$CI_JOB_ID
+  before_script:
+    - mkdir -p $WERF_TMP_DIR
+    - *init_werf_script
+    - echo ${WERF_REPO}
+  script:
+    - werf build
+
+
+Deploy:
+  stage: deploy
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
