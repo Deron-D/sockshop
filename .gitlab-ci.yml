@@ -10,7 +10,7 @@ variables:
 Build and Publish:
   stage: build
   image:
-    name: registry.werf.io/werf/werf:1.2
+      name: registry.werf.io/werf/werf:1.2
   script:
     - source $(werf ci-env gitlab --as-file)
     - werf build

@@ -225,6 +225,8 @@ kubectl get pods -n default | grep gitlab-runner
 
 ### Полезное
 
+> https://habr.com/ru/companies/flant/articles/597277/
+
 Stop
 ~~~bash
 yc compute instance stop gitlab-ci-vm-0
