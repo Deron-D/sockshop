@@ -4,6 +4,8 @@ stages:
 
 variables:
   WERF_IMAGES_REPO_MODE: monorepo
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_DEPTH: 1
 
 Build and Publish:
   stage: build
