@@ -167,7 +167,32 @@ ssh ubuntu@84.201.150.198 -i ~/.ssh/appuser
 > https://gitlab.84.201.150.198.sslip.io/
 
 ![img.png](img.png)
- 
+
+
+# Create a Kubernetes service account token to authenticate with GitLab
+~~~bash
+kubectl config use-context yc-k8s-4otu
+kubectl apply -f ./gitlab-ci/gitlab-admin-service-account.yaml
+~~~
+
+# Create the GitLab environment variables.
+- KUBE_URL:
+~~~bash
+yc managed-kubernetes cluster get k8s-4otus --format=json \
+  | jq -r .master.endpoints.external_v4_endpoint
+~~~
+
+# Retrieve the service account token:
+- KUBE_TOKEN:
+~~~bash
+kubectl -n kube-system get secrets -o json | \
+jq -r '.items[] | select(.metadata.name | startswith("gitlab-admin")) | .data.token' | \
+base64 --decode
+~~~
+
+> https://cloud.yandex.ru/docs/managed-kubernetes/operations/applications/gitlab-agent
+
+
 
 ### Полезное
 
