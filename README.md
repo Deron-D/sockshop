@@ -174,9 +174,11 @@ ssh ubuntu@84.201.150.198 -i ~/.ssh/appuser
 Stop
 ~~~bash
 yc compute instance stop gitlab-ci-vm-0
+yc managed-kubernetes cluster stop k8s-4otus
 ~~~
 
 Start
 ~~~bash
 yc compute instance start gitlab-ci-vm-0
+yc managed-kubernetes cluster start k8s-4otus
 ~~~
