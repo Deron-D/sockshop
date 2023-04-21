@@ -204,6 +204,24 @@ helm upgrade --install k8s-4otus-agent gitlab/gitlab-agent \
     --set config.kasAddress=wss://gitlab.84.201.150.198.sslip.io/-/kubernetes-agent/
 ~~~
 
+~~~bash
+kubectl get pods --namespace gitlab-agent-k8s-4otus-agent
+~~~
+
+## Create a GitLab Runner
+
+~~~bash
+helm repo add gitlab https://charts.gitlab.io
+~~~
+
+~~~bash
+#export RUNNER_TOKEN=TOKEN
+helm upgrade --install --namespace default gitlab-runner -f gitlab-ci/runner/values.yaml --set runnerRegistrationToken=$RUNNER_TOKEN gitlab/gitlab-runner
+~~~
+
+~~~bash
+kubectl get pods -n default | grep gitlab-runner
+~~~
 
 ### Полезное
 
