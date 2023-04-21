@@ -1,27 +1,27 @@
 [submodule "carts"]
 	path = carts
-	url = ../carts.git
+	url = ../../gitlab-instance-711bf56d/carts.git
 [submodule "front-end"]
 	path = front-end
-	url = ../front-end.git
+	url = ../../gitlab-instance-711bf56d/front-end.git
 [submodule "user"]
 	path = user
-	url = ../user.git
+	url = ../../gitlab-instance-711bf56d/user.git
 [submodule "shipping"]
 	path = shipping
-	url = ../shipping.git
+	url = ../../gitlab-instance-711bf56d/shipping.git
 [submodule "queue-master"]
 	path = queue-master
-	url = ../queue-master.git
+	url = ../../gitlab-instance-711bf56d/queue-master.git
 [submodule "msd-java"]
 	path = msd-java
-	url = ../msd-java.git
+	url = ../../gitlab-instance-711bf56d/msd-java.git
 [submodule "orders"]
 	path = orders
-	url = ../orders.git
+	url = ../../gitlab-instance-711bf56d/orders.git
 [submodule "catalogue"]
 	path = catalogue
-	url = ../catalogue.git
+	url = ../../gitlab-instance-711bf56d/catalogue.git
 [submodule "payment"]
 	path = payment
-	url = ../payment.git
+	url = ../../gitlab-instance-711bf56d/payment.git
