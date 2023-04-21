@@ -191,7 +191,18 @@ base64 --decode
 ~~~
 
 > https://cloud.yandex.ru/docs/managed-kubernetes/operations/applications/gitlab-agent
+> https://docs.gitlab.com/ee/user/clusters/agent/install/
 
+~~~bash
+helm repo add gitlab https://charts.gitlab.io
+helm repo update
+helm upgrade --install k8s-4otus-agent gitlab/gitlab-agent \
+    --namespace gitlab-agent-k8s-4otus-agent \
+    --create-namespace \
+    --set image.tag=v15.10.0 \
+    --set config.token=<token> \
+    --set config.kasAddress=wss://gitlab.84.201.150.198.sslip.io/-/kubernetes-agent/
+~~~
 
 
 ### Полезное
