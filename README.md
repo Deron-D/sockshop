@@ -223,6 +223,26 @@ helm upgrade --install --namespace default gitlab-runner -f gitlab-ci/runner/val
 kubectl get pods -n default | grep gitlab-runner
 ~~~
 
+
+### 4. Установка nginx-ingress 
+
+~~~bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update ingress-nginx
+~~~
+~~~bash
+kubectl create ns nginx-ingress
+helm upgrade --install nginx-ingress-release ingress-nginx/ingress-nginx \
+ --namespace=nginx-ingress --version="4.4.2"
+~~~
+~~~bash
+kubectl get pods -n nginx-ingress -o wide
+~~~
+~~~bash
+yc vpc address list                                       
+yc vpc address update --reserved=true e9b9sros5o79t35u2mgg
+~~~
+
 ### Полезное
 
 > https://habr.com/ru/companies/flant/articles/597277/
