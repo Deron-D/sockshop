@@ -23,9 +23,9 @@ Deploy:
     name: registry.werf.io/werf/werf:1.2
   script:
     - werf kubectl create namespace ${KUBE_NAMESPACE} || true
-    - > 
-      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
-      --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}"
-      -o yaml --dry-run=client | werf kubectl apply -f -
-    - werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gitlab-registry"}]}'
+#    - > -
+#      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
+#      --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}"
+#      -o yaml --dry-run=client | werf kubectl apply -f -
+#    - werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gitlab-registry"}]}'
 
