@@ -23,7 +23,7 @@ Deploy:
   script:
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-    - werf kubectl get pods -A
+    - werf converge --skip-build
 #    - werf kubectl create namespace ${KUBE_NAMESPACE} || true
 #    - > -
 #      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
