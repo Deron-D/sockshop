@@ -9,8 +9,6 @@ variables:
   KUBE_NAMESPACE: sockshop
 
 .base_job
-  image:
-    name: registry.werf.io/werf/werf:1.2
   before_script:
     - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD}
 
@@ -23,6 +21,8 @@ variables:
 
 
 Deploy:
+  image:
+    name: registry.werf.io/werf/werf:1.2
   extends: .base_job
   stage: deploy
   script:
