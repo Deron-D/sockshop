@@ -25,13 +25,5 @@ Deploy:
     - source $(werf ci-env gitlab --as-file)
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-#      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}" --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
-#      werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gitlab-registry"}]}'
+    - werf helm dependency update
     - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
-#    - werf kubectl create namespace ${KUBE_NAMESPACE} || true
-#    - > -
-#      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
-#      --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}"
-#      -o yaml --dry-run=client | werf kubectl apply -f -
-#    - werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gitlab-registry"}]}'
-
