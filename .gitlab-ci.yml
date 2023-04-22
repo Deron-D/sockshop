@@ -20,9 +20,12 @@ Build and Publish:
 Deploy:
   stage: deploy
   image:
-    name: bitnami/kubectl:latest
-    entrypoint: ['']
+    name: registry.werf.io/werf/werf:1.2
   script:
-    - kubectl config get-contexts
-    - kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-    - kubectl get pods -A
+    - werf kubectl create namespace ${KUBE_NAMESPACE} || true
+    - > 
+      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
+      --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}"
+      -o yaml --dry-run=client | werf kubectl apply -f -
+    - werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gitlab-registry"}]}'
+
