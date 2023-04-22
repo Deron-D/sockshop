@@ -10,8 +10,8 @@ variables:
 Build and Publish:
   stage: build
   image:
-#      name: registry.werf.io/werf/werf:1.2
-    name: registry.84.201.150.198.sslip.io/gitlab-instance-711bf56d/sockshop/werf-git:1.2
+    name: registry.werf.io/werf/werf:1.2
+#    name: registry.84.201.150.198.sslip.io/gitlab-instance-711bf56d/sockshop/werf-git:1.2
   script:
     - source $(werf ci-env gitlab --as-file)
     - werf build
