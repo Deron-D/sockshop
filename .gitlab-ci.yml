@@ -12,7 +12,8 @@ variables:
   image:
     name: registry.werf.io/werf/werf:1.2
   before_script:
-    - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD}
+#    - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD}
+    - werf kubectl create secret docker-registry my-secret --docker-username=${CI_DOCKER_HUB_USER} --docker-password=${CI_DOCKER_HUB_PASSWORD}
 
 #Build and Publish:
 #  extends: .base_job
