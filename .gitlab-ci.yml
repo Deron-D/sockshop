@@ -8,22 +8,25 @@ variables:
   GIT_SUBMODULE_DEPTH: 1
   KUBE_NAMESPACE: sockshop
 
+.base_job
+  image:
+    name: registry.werf.io/werf/werf:1.2
+  before_script:
+    - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD}
+
 #Build and Publish:
+#  extends: .base_job
 #  stage: build
-#  image:
-#    name: registry.werf.io/werf/werf:1.2
 #  script:
 #    - source $(werf ci-env gitlab --as-file)
 #    - werf build
 
 
 Deploy:
+  extends: .base_job
   stage: deploy
-  image:
-    name: registry.werf.io/werf/werf:1.2
   script:
     - source $(werf ci-env gitlab --as-file)
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-    - werf helm dependency update
     - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
