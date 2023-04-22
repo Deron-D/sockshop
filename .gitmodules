@@ -1,0 +1,3 @@
+[submodule "gitlab-ci/carts"]
+	path = gitlab-ci/carts
+	url = git@github.com:Deron-D/carts.git
