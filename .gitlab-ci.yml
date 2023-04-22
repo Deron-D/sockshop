@@ -23,7 +23,7 @@ Deploy:
   script:
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-    - werf converge --skip-build
+    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)" --repo registry.84.201.150.198.sslip.io/sockshop
 #    - werf kubectl create namespace ${KUBE_NAMESPACE} || true
 #    - > -
 #      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
