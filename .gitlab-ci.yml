@@ -30,4 +30,6 @@ Deploy:
     - source $(werf ci-env gitlab --as-file)
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - echo $WERF_DOCKER_CONFIG
+    - echo $DOCKER_CONFIG
+#    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
