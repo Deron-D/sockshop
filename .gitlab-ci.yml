@@ -7,14 +7,13 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_DEPTH: 1
 
-Build and Publish:
-  stage: build
-  image:
-    name: registry.werf.io/werf/werf:1.2
-#    name: registry.84.201.150.198.sslip.io/gitlab-instance-711bf56d/sockshop/werf-git:1.2
-  script:
-    - source $(werf ci-env gitlab --as-file)
-    - werf build
+#Build and Publish:
+#  stage: build
+#  image:
+#    name: registry.werf.io/werf/werf:1.2
+#  script:
+#    - source $(werf ci-env gitlab --as-file)
+#    - werf build
 
 
 Deploy:
@@ -22,7 +21,10 @@ Deploy:
   image:
     name: registry.werf.io/werf/werf:1.2
   script:
-    - werf kubectl create namespace ${KUBE_NAMESPACE} || true
+    - werf kubectl config get-contexts
+    - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
+    - werf kubectl get pods -A
+#    - werf kubectl create namespace ${KUBE_NAMESPACE} || true
 #    - > -
 #      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}"
 #      --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}"
