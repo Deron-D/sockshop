@@ -28,6 +28,7 @@ Deploy:
   stage: deploy
   script:
     - echo $DOCKER_AUTH_CONFIG > /tmp/werf-docker-config.json
+    - cat /tmp/werf-docker-config.json
     - source $(werf ci-env gitlab --as-file --docker-config='/tmp/werf-docker-config.json')
 #    - source $(werf ci-env gitlab --as-file)
     - werf kubectl config get-contexts
