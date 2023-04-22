@@ -1,14 +1,14 @@
 #!/bin/bash
-git rm -f carts
-git rm -f front-end
-git rm -f user
-git rm -f shipping
-git rm -f queue-master
-git rm -f msd-java
-git rm -f catalogue
-git rm -f orders
-git rm -f payment
-git commit -am "Submodules remove"
+#git rm -rf carts
+#git rm -rf front-end
+#git rm -rf user
+#git rm -rf shipping
+#git rm -rf queue-master
+#git rm -rf msd-java
+#git rm -rf catalogue
+#git rm -rf orders
+#git rm -rf payment
+#git commit -am "Submodules remove"
 git submodule add -f https://github.com/Deron-D/carts.git carts
 git submodule add -f https://github.com/Deron-D/front-end.git front-end
 git submodule add -f https://github.com/Deron-D/user.git user
