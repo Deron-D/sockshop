@@ -30,5 +30,5 @@ override.tf.json
 .idea/
 werf.save.yaml
 *.tfvars
-./regcred.yaml
+regcred.yaml
 
