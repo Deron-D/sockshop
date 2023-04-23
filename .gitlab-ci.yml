@@ -7,31 +7,27 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_DEPTH: 1
   KUBE_NAMESPACE: sockshop
+  DOCKER_REGISTRY: index.docker.io
+
+.init_werf_script: &init_werf_script
+  - source $(werf ci-env gitlab --as-file)
+  - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
 
 .base_job:
   image:
     name: registry.werf.io/werf/werf:1.2
-#  before_script:
-##    - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD}
-#    - werf kubectl create secret docker-registry my-secret --docker-username=${CI_DOCKER_HUB_USER} --docker-password=${CI_DOCKER_HUB_PASSWORD}
+  before_script:
+    - &init_werf_script
 
-#Build and Publish:
-#  extends: .base_job
-#  stage: build
-#  script:
-#    - source $(werf ci-env gitlab --as-file)
-#    - werf build
-
+Build and Publish:
+  extends: .base_job
+  stage: build
+  script:
+    - werf build
 
 Deploy:
   extends: .base_job
   stage: deploy
-  script:
-    - werf cr login -u $CI_DOCKER_HUB_USER  -p $CI_DOCKER_HUB_PASSWORD index.docker.io
-    - source $(werf ci-env gitlab --as-file)
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-#    - echo $WERF_DOCKER_CONFIG
-#    - echo $DOCKER_CONFIG
-#    - cat $DOCKER_CONFIG/config.json
     - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
