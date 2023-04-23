@@ -15,9 +15,12 @@ spec:
       labels:
         name: catalogue-db
     spec:
+      imagePullSecrets:
+        - name: gitlab-credentials
       containers:
       - name: catalogue-db
-        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.cataloguedb.image.repo }}:{{ .Values.cataloguedb.image.tag }}
+#        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.cataloguedb.image.repo }}:{{ .Values.cataloguedb.image.tag }}
+        image: {{ .Values.werf.image.catalogue-db }}
         env:
           - name: MYSQL_ROOT_PASSWORD
             value: fake_password

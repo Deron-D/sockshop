@@ -19,9 +19,12 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
       {{- end }}
     spec:
+      imagePullSecrets:
+        - name: gitlab-credentials
       containers:
       - name: catalogue
-        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.catalogue.image.repo }}:{{ .Values.catalogue.image.tag }}
+#        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.catalogue.image.repo }}:{{ .Values.catalogue.image.tag }}
+        image: {{ .Values.werf.image.catalogue-db }}
         command: ["/app"]
         args:
         - -port={{ .Values.catalogue.containerPort }}
