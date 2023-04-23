@@ -20,7 +20,7 @@ spec:
       containers:
       - name: catalogue-db
 #        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.cataloguedb.image.repo }}:{{ .Values.cataloguedb.image.tag }}
-        image: {{ .Values.werf.image.catalogue-db }}
+        image: {{ .Values.werf.image.cataloguedb }}
         env:
           - name: MYSQL_ROOT_PASSWORD
             value: fake_password
