@@ -17,7 +17,7 @@ variables:
   image:
     name: registry.werf.io/werf/werf:1.2
   before_script:
-    - &init_werf_script
+    - *init_werf_script
 
 Build and Publish:
   extends: .base_job
