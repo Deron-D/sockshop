@@ -38,7 +38,8 @@ Deploy:
     - env
     - |
       werf kubectl create namespace ${KUBE_NAMESPACE} || true
-      werf kubectl -n create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
+      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
+      werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [ { "name": "gitlab-credentials" } ] }'
       werf kubectl -n patch serviceaccount default -p '{"imagePullSecrets": [ { "name": "gitlab-credentials" } ] }'
     - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
 
