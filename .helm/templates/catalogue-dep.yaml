@@ -24,7 +24,7 @@ spec:
       containers:
       - name: catalogue
 #        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.catalogue.image.repo }}:{{ .Values.catalogue.image.tag }}
-        image: {{ .Values.werf.image.catalogue-db }}
+        image: {{ .Values.werf.image.catalogue }}
         command: ["/app"]
         args:
         - -port={{ .Values.catalogue.containerPort }}
