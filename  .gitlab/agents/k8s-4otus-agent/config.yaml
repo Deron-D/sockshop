@@ -1,3 +1,8 @@
+#ci_access:
+#  projects:
+#    - id: gitlab-instance-711bf56d/sockshop
 ci_access:
+  groups:
+    - id: gitlab-instance-711bf56d
   projects:
-    - id: gitlab-instance-711bf56d/sockshop
+    - id: sockshop
