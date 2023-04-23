@@ -19,11 +19,11 @@ variables:
   before_script:
     - *init_werf_script
 
-Build and Publish:
-  extends: .base_job
-  stage: build
-  script:
-    - werf build
+#Build and Publish:
+#  extends: .base_job
+#  stage: build
+#  script:
+#    - werf build
 
 Deploy:
   extends: .base_job
@@ -31,6 +31,9 @@ Deploy:
   script:
     - werf kubectl config get-contexts
     - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
+    - echo ${CI_REGISTRY}
+    - echo ${CI_DEPLOY_USER}
+    - echo ${CI_DEPLOY_PASSWORD}
     - |
       werf kubectl create namespace ${KUBE_NAMESPACE} || true
       werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-registry --docker-server="${CI_REGISTRY}" --docker-username="${CI_DEPLOY_USER}" --docker-password="${CI_DEPLOY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
