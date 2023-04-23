@@ -11,7 +11,7 @@ variables:
 
 .init_werf_script: &init_werf_script
   - source $(werf ci-env gitlab --as-file)
-#  - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
+  - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
 
 .base_job:
   image:
