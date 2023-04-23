@@ -19,6 +19,8 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
       {{- end }}
     spec:
+      imagePullSecrets:
+        - name: gitlab-credentials
       containers:
       - command:
         - /usr/local/bin/java.sh
