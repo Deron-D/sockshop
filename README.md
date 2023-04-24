@@ -147,9 +147,30 @@ terraform init
 terraform apply --auto-approve
 ~~~
 
+- Установка nginx-ingress
+
+~~~bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update ingress-nginx
+~~~
+~~~bash
+kubectl create ns nginx-ingress
+helm upgrade --install nginx-ingress-release ingress-nginx/ingress-nginx \
+ --namespace=nginx-ingress --version="4.4.2"
+~~~
+~~~bash
+kubectl get pods -n nginx-ingress -o wide
+kubectl get svc -n nginx-ingress -o wide
+~~~
+~~~bash
+yc vpc address list                                       
+yc vpc address update --reserved=true e9b9sros5o79t35u2mgg
+~~~
+
+
 > https://cloud.yandex.com/en-ru/docs/tutorials/infrastructure-management/gitlab-containers
 - Развертывание GitLab CI
-~~~
+~~~bash
 cd gitlab-ci/terraform
 terraform init
 terraform apply --auto-approve
@@ -169,33 +190,14 @@ ssh ubuntu@84.201.150.198 -i ~/.ssh/appuser
 ![img.png](img.png)
 
 
-# Create a Kubernetes service account token to authenticate with GitLab
-~~~bash
-kubectl config use-context yc-k8s-4otu
-kubectl apply -f ./gitlab-ci/gitlab-admin-service-account.yaml
-~~~
-
-# Create the GitLab environment variables.
-- KUBE_URL:
-~~~bash
-yc managed-kubernetes cluster get k8s-4otus --format=json \
-  | jq -r .master.endpoints.external_v4_endpoint
-~~~
-
-# Retrieve the service account token:
-- KUBE_TOKEN:
-~~~bash
-kubectl -n kube-system get secrets -o json | \
-jq -r '.items[] | select(.metadata.name | startswith("gitlab-admin")) | .data.token' | \
-base64 --decode
-~~~
+# Установка GitLab Agent
 
 > https://cloud.yandex.ru/docs/managed-kubernetes/operations/applications/gitlab-agent
 > https://docs.gitlab.com/ee/user/clusters/agent/install/
 
 ~~~bash
 helm repo add gitlab https://charts.gitlab.io
-helm repo update
+helm repo update gitlab
 helm upgrade --install k8s-4otus-agent gitlab/gitlab-agent \
     --namespace gitlab-agent-k8s-4otus-agent \
     --create-namespace \
@@ -208,14 +210,14 @@ helm upgrade --install k8s-4otus-agent gitlab/gitlab-agent \
 kubectl get pods --namespace gitlab-agent-k8s-4otus-agent
 ~~~
 
-## Create a GitLab Runner
+# Create a GitLab Runner
 
 ~~~bash
 helm repo add gitlab https://charts.gitlab.io
 ~~~
 
 ~~~bash
-#export RUNNER_TOKEN=TOKEN
+#`export RUNNER_TOKEN=`TOKEN
 helm upgrade --install --namespace default gitlab-runner -f gitlab-ci/runner/values.yaml --set runnerRegistrationToken=$RUNNER_TOKEN gitlab/gitlab-runner
 ~~~
 
@@ -224,24 +226,6 @@ kubectl get pods -n default | grep gitlab-runner
 ~~~
 
 
-### 4. Установка nginx-ingress 
-
-~~~bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update ingress-nginx
-~~~
-~~~bash
-kubectl create ns nginx-ingress
-helm upgrade --install nginx-ingress-release ingress-nginx/ingress-nginx \
- --namespace=nginx-ingress --version="4.4.2"
-~~~
-~~~bash
-kubectl get pods -n nginx-ingress -o wide
-~~~
-~~~bash
-yc vpc address list                                       
-yc vpc address update --reserved=true e9b9sros5o79t35u2mgg
-~~~
 
 ### Полезное
 
