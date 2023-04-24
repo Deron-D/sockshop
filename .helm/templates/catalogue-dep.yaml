@@ -20,7 +20,7 @@ spec:
       {{- end }}
     spec:
       imagePullSecrets:
-        - name: gitlab-credentials
+        - name: {{ .Values.global.imagePullSecret }}
       containers:
       - name: catalogue
         image: {{ .Values.werf.image.catalogue }}
