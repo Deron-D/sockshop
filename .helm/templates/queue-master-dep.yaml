@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: queue-master
-        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.queuemaster.image.repo }}:{{ .Values.queuemaster.image.tag }}
+        image: {{ .Values.werf.image.queuemaster }}
         env:
          {{- if .Values.zipkin.enabled }}
          - name: ZIPKIN

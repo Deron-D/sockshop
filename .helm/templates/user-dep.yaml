@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: user
-        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.user.image.repo }}:{{ .Values.user.image.tag }}
+        image: {{ .Values.werf.image.user }}
         command:
         - /user
         args:

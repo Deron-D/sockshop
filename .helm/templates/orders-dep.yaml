@@ -21,7 +21,6 @@ spec:
     spec:
       containers:
       - name: orders
-#        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.orders.image.repo }}:{{ .Values.orders.image.tag }}
         image: {{ .Values.werf.image.orders }}
         command:
         - /usr/local/bin/java.sh

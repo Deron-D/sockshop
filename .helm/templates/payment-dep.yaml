@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.payment.image.repo }}:{{ .Values.payment.image.tag }}
+        image: {{ .Values.werf.image.payment }}
         command:
         - /app
         - -decline={{ .Values.payment.declinePaymentsOverAmount }}
