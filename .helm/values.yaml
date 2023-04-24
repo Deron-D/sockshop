@@ -33,10 +33,7 @@ cartsdb:
         size: 512Mi
 
 carts:
-    image:
-        repo: weaveworksdemos/carts
-        tag: 0.4.8
-    containerPort: 80
+    containerPort: 8080
     resources:
         limits:
             cpu: 300m
@@ -66,9 +63,6 @@ catalogue:
 
 frontend:
     replicas: 1
-    image:
-        repo: weaveworksdemos/front-end
-        tag: 0.3.12
     resources:
         limits:
             cpu: 300m
@@ -107,9 +101,6 @@ ordersdb:
         size: 512Mi
 
 orders:
-    image:
-        repo: weaveworksdemos/orders
-        tag: 0.4.7
     containerPort: 80
     resources:
         limits:
@@ -120,9 +111,6 @@ orders:
             memory: 2000Mi
 
 payment:
-    image:
-        repo: weaveworksdemos/payment
-        tag: 0.4.3
     declinePaymentsOverAmount: 200
     containerPort: 8080
     resources:
@@ -134,9 +122,6 @@ payment:
             memory: 100Mi
 
 queuemaster:
-    image:
-        repo: weaveworksdemos/queue-master
-        tag: 0.3.1
     resources:
         limits:
             cpu: 300m
@@ -173,9 +158,6 @@ sessiondb:
         size: 512Mi
 
 shipping:
-    image:
-        repo: weaveworksdemos/shipping
-        tag: 0.4.8
     containerPort: 80
     resources:
         limits:
@@ -186,9 +168,6 @@ shipping:
             memory: 2000Mi
 
 userdb:
-    image:
-        repo: weaveworksdemos/user-db
-        tag: 0.4.0
     resources:
         limits:
             cpu: 300m
@@ -198,9 +177,6 @@ userdb:
             memory: 300Mi
 
 user:
-    image:
-        repo: weaveworksdemos/user
-        tag: 0.4.7
     containerPort: 8080
     resources:
         limits:
