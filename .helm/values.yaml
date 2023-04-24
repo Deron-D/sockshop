@@ -201,7 +201,7 @@ user:
     image:
         repo: weaveworksdemos/user
         tag: 0.4.7
-    containerPort: 80
+    containerPort: 8080
     resources:
         limits:
             cpu: 300m
