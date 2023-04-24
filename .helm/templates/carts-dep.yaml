@@ -19,8 +19,8 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
       {{- end }}
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.global.imagePullSecret }}
+#      imagePullSecrets:
+#        - name: gitlab-credentials
       containers:
       - command:
         - /usr/local/bin/java.sh
@@ -28,7 +28,8 @@ spec:
         - ./app.jar
         - --port={{ .Values.carts.containerPort }}
         name: carts
-        image: {{ .Values.werf.image.carts }}
+        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.carts.image.repo }}:{{ .Values.carts.image.tag }}
+#        image: {{ .Values.werf.image.carts }}
         env:
          {{- if .Values.zipkin.enabled }}
          - name: ZIPKIN
