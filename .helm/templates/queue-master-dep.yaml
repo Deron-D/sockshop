@@ -19,6 +19,8 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
       {{- end }}
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.global.imagePullSecret }}
       containers:
       - name: queue-master
         image: {{ .Values.werf.image.queuemaster }}
