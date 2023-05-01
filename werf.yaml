@@ -3,3 +3,30 @@ configVersion: 1
 ---
 {{ $_ := set $ "Dockerfile" "carts/Dockerfile" }}
 {{ include "carts-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "catalogue/docker/catalogue/Dockerfile" }}
+{{ include "catalogue-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "catalogue/docker/catalogue-db/Dockerfile" }}
+{{ include "catalogue-db-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "front-end/Dockerfile" }}
+{{ include "front-end-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "orders/docker/orders/Dockerfile.github" }}
+{{ include "orders-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "queue-master/Dockerfile" }}
+{{ include "queue-master-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "shipping/docker/shipping/Dockerfile" }}
+{{ include "shipping-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "payment/docker/payment/Dockerfile" }}
+{{ include "payment-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "user/docker/user/Dockerfile-release" }}
+{{ include "user-build" $ }}
+
+{{ $_ := set $ "Dockerfile" "user/docker/user-db/Dockerfile" }}
+{{ include "user-db-build" $ }}
