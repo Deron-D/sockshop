@@ -33,7 +33,7 @@ cartsdb:
         size: 512Mi
 
 carts:
-    containerPort: 8080
+    containerPort: 80
     resources:
         limits:
             cpu: 300m
