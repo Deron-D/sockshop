@@ -226,4 +226,3 @@ zipkinmysql:
         limits:
             memory: 768Mi
             cpu: 1
-q
