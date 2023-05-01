@@ -217,7 +217,7 @@ helm repo add gitlab https://charts.gitlab.io
 ~~~
 
 ~~~bash
-#`export RUNNER_TOKEN=`TOKEN
+#export RUNNER_TOKEN=TOKEN
 helm upgrade --install --namespace default gitlab-runner -f gitlab-ci/runner/values.yaml --set runnerRegistrationToken=$RUNNER_TOKEN gitlab/gitlab-runner
 ~~~
 
