@@ -33,6 +33,9 @@ cartsdb:
         size: 512Mi
 
 carts:
+    image:
+        repo: weaveworksdemos/carts
+        tag: 0.4.8
     containerPort: 80
     resources:
         limits:
@@ -223,3 +226,4 @@ zipkinmysql:
         limits:
             memory: 768Mi
             cpu: 1
+q

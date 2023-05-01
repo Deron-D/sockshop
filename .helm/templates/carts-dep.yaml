@@ -26,7 +26,8 @@ spec:
         - ./app.jar
         - --port={{ .Values.carts.containerPort }}
         name: carts
-        image: {{ .Values.werf.image.carts }}
+        #image: {{ .Values.werf.image.carts }}
+        image: {{if .Values.global.registry}}{{ .Values.global.registry }}/{{end}}{{ .Values.carts.image.repo }}:{{ .Values.carts.image.tag }}
         env:
          {{- if .Values.zipkin.enabled }}
          - name: ZIPKIN
