@@ -11,8 +11,9 @@ variables:
 
 .init_werf_script: &init_werf_script
   - source $(werf ci-env gitlab --as-file)
-  - cat /etc/issue
-  - uname -a
+  - apk update
+  - apk add curl
+  - apk add jq
   - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
 #  - werf cr  login -u ${CI_DEPENDENCY_PROXY_USER} -p ${CI_DEPENDENCY_PROXY_PASSWORD} ${CI_DEPENDENCY_PROXY_SERVER}
   - echo ${CI_DEPENDENCY_PROXY_SERVER}
