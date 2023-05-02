@@ -2,7 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
-    registry: 'gitlab.84.201.150.198.sslip.io:443/gitlab-instance-711bf56d/dependency_proxy/containers'
+#    registry: 'gitlab.84.201.150.198.sslip.io:443/gitlab-instance-711bf56d/dependency_proxy/containers'
+    registry: ''
     imagePullSecret: gitlab-credentials
 java:
     options: -Xms64m -Xmx128m -XX:PermSize=32m -XX:MaxPermSize=64m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
