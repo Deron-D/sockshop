@@ -196,13 +196,17 @@ ssh ubuntu@84.201.150.198 -i ~/.ssh/appuser
 > https://docs.gitlab.com/ee/user/clusters/agent/install/
 
 ~~~bash
+kubectl apply -f gitlab-ci/gitlab-admin-service-account.yaml
+kubectl -n kube-system get secrets -o json | jq -r '.items[] | select(.metadata.name | startswith("gitlab-admin")) | .data.token' | base64 --decode
+~~~
+~~~bash
 helm repo add gitlab https://charts.gitlab.io
 helm repo update gitlab
 helm upgrade --install k8s-4otus-agent gitlab/gitlab-agent \
     --namespace gitlab-agent-k8s-4otus-agent \
     --create-namespace \
     --set image.tag=v15.10.0 \
-    --set config.token=<token> \
+    --set config.token='' \
     --set config.kasAddress=wss://gitlab.84.201.150.198.sslip.io/-/kubernetes-agent/
 ~~~
 
