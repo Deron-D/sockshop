@@ -35,13 +35,10 @@ variables:
       
 
 
-
-
 Build and Publish:
   extends: .base_job
   stage: build
   script:
-    - cat ~/.docker/config.json
     - werf build
 
 Deploy:
