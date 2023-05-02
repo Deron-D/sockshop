@@ -12,7 +12,7 @@ variables:
 
 .init_werf_script: &init_werf_script
   - source $(werf ci-env gitlab --as-file)
-  - apk add curl && apk add jq
+  - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD}
   - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
 #  - werf cr  login -u ${CI_DEPENDENCY_PROXY_USER} -p ${CI_DEPENDENCY_PROXY_PASSWORD} ${CI_DEPENDENCY_PROXY_SERVER}
 
@@ -23,17 +23,21 @@ variables:
     - *init_werf_script
 
 Test:
-  services:
-    - docker:20.10.16-dind
   stage: test
-  image: ubuntu:latest
+  image: alpine:latest
+  before_script: apk add curl jq
   script:
-    - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
     - echo ${CI_DEPENDENCY_PROXY_SERVER}
     - echo ${CI_DEPENDENCY_PROXY_USER}
     - echo ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}
+    - cat ~/.docker/config.json
     - |
       TOKEN=$(curl "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq --raw-output .token) && curl --head --header "Authorization: Bearer $TOKEN" "https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest" 2>&1
+      echo $TOKEN
+      
+
+
+
 
 Build and Publish:
   extends: .base_job
