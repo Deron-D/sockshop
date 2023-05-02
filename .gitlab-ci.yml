@@ -23,8 +23,10 @@ variables:
     - *init_werf_script
 
 Test:
+  services:
+    - docker:20.10.16-dind
   stage: test
-  image: docker:20.10.16
+  image: ubuntu:latest
   script:
     - docker login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
     - echo ${CI_DEPENDENCY_PROXY_SERVER}
