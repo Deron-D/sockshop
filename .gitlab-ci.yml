@@ -96,12 +96,9 @@ Deploy to Staging:
     url: http://${CI_PROJECT_PATH_SLUG}.${BASE_URL}
     kubernetes:
       namespace: ${CI_PROJECT_PATH_SLUG}-staging
-  only:
-    refs:
-      - master
-      - main
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 
 Deploy to Production:
