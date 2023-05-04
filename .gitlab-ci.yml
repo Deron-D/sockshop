@@ -39,11 +39,12 @@ variables:
 
 .base_deploy:
   extends: .base_werf
+  variables:
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
   stage: deploy
   environment:
     name: ${CI_COMMIT_REF_SLUG}
     url: ${URL_SCHEMA}://${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}.${URL_HOST}
-    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
   script:
     - *deploy_script
   dependencies:
