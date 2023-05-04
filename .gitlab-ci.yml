@@ -37,8 +37,6 @@ variables:
     - *deploy_script
   dependencies:
     - Build and Publish
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule"
 
 #.dismiss_script: &dismiss_script
 #  - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace
