@@ -42,9 +42,8 @@ variables:
   stage: deploy
   environment:
     name: ${CI_COMMIT_REF_SLUG}
-    url: ${URL_SCHEMA}://${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}.${URL_HOST}
-    kubernetes:
-      namespace: ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}
+    url: ${URL_SCHEMA}://${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}.${URL_HOST}
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
   script:
     - *deploy_script
   dependencies:
@@ -116,7 +115,7 @@ Deploy to Staging:
   extends: .base_deploy
   environment:
     name: staging
-    url: http://${CI_PROJECT_PATH_SLUG}.${BASE_URL}
+    url: http://${CI_PROJECT_NAME}.${BASE_URL}
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
