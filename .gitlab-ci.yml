@@ -40,10 +40,26 @@ variables:
 .base_deploy:
   extends: .base_werf
   stage: deploy
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: ${URL_SCHEMA}://${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}.${URL_HOST}
+    kubernetes:
+      namespace: ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}
   script:
     - *deploy_script
   dependencies:
     - Build and Publish
+
+#.base_development:
+#  extends:
+#    - .base_deploy
+#  environment:
+#    name: ${CI_COMMIT_REF_SLUG}
+#    url: ${URL_SCHEMA}://${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}.${URL_HOST}
+#    kubernetes:
+#      namespace: ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}
+#    on_stop: Stop Development
+#    auto_stop_in: 3 day
 
 #.dismiss_script: &dismiss_script
 #  - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace
@@ -97,11 +113,9 @@ Stop Review:
   when: manual
 
 Deploy to Staging:
-  variables:
-    KUBE_NAMESPACE: ${CI_PROJECT_PATH_SLUG}-staging
   extends: .base_deploy
   environment:
-    name: SSstaging
+    name: staging
     url: http://${CI_PROJECT_PATH_SLUG}.${BASE_URL}
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
