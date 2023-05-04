@@ -97,12 +97,12 @@ Stop Review:
   when: manual
 
 Deploy to Staging:
+  variables:
+    KUBE_NAMESPACE: ${CI_PROJECT_PATH_SLUG}-staging
   extends: .base_deploy
   environment:
     name: staging
     url: http://${CI_PROJECT_PATH_SLUG}.${BASE_URL}
-    kubernetes:
-      namespace: ${CI_PROJECT_PATH_SLUG}-staging
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
