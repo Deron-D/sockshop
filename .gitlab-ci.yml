@@ -34,7 +34,7 @@ variables:
   extends: .base_werf
   stage: deploy
   script:
-    - *.deploy_script
+    - *deploy_script
   dependencies:
     - Build and Publish
   rules:
