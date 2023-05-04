@@ -30,6 +30,7 @@ variables:
     werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
     werf kubectl config current-context
     werf kubectl get pods
+    env
   - |
     werf kubectl create namespace ${KUBE_NAMESPACE} || true
     werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
