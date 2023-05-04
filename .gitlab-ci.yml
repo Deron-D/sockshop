@@ -93,11 +93,11 @@ Review:
   extends: .base_deploy
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
-    url: http://${CI_PROJECT_NAME}.${BASE_URL}
+    url: http://${CI_PROJECT_NAME}-${CI_MERGE_REQUEST_ID}.${BASE_URL}
     on_stop: Stop Review
     auto_stop_in: 1 day
   rules:
-    - if: $CI_MERGE_REQUEST_ID && $CI_COMMIT_REF_NAME =~ /^review-/
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 Stop Review:
   stage: dismiss
