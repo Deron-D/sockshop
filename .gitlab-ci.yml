@@ -8,7 +8,6 @@ variables:
   WERF_IMAGES_REPO_MODE: monorepo
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_DEPTH: 1
-  KUBE_NAMESPACE: sockshop
   DOCKER_REGISTRY: docker.io
   BASE_URL: 62.84.114.132.sslip.io
 
@@ -17,30 +16,55 @@ variables:
   - werf cr login -u ${CI_DOCKER_HUB_USER} -p ${CI_DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY}
   - werf cr login -u ${CI_DEPENDENCY_PROXY_USER} -p ${CI_DEPENDENCY_PROXY_PASSWORD} ${CI_DEPENDENCY_PROXY_SERVER}
 
-.base_job:
+.base_werf:
   image:
     name: registry.werf.io/werf/werf:1.2
   before_script:
     - *init_werf_script
 
-Build and Publish:
-  extends: .base_job
-  stage: build
+.deploy_script: &deploy_script
+  - |
+    werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
+    werf kubectl config current-context
+    werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
+    werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [ { "name": "gitlab-credentials" } ] }'
+    werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+
+.base_deploy:
+  extends: .base_werf
+  stage: deploy
   script:
-    - werf build
+    - *.deploy_script
+  dependencies:
+    - Build and Publish
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
 
-.base_deploy:
-  extends: .base_job
-  stage: deploy
+#.dismiss_script: &dismiss_script
+#  - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace
+#
+#.base_dismiss:
+#  extends: .base_werf
+#  stage: dismiss
+#  script:
+#    - *dismiss_script
+#  variables:
+#    GIT_STRATEGY: none
+
+.cleanup:
+  extends: .base_werf
+  stage: cleanup
   script:
-    - |
-      werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-      werf kubectl config current-context
-      werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
-      werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [ { "name": "gitlab-credentials" } ] }'
-      werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - werf cleanup
+  only:
+    refs:
+      - schedules
+
+Build and Publish:
+  extends: .base_werf
+  stage: build
+  script:
+    - werf build
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
 
@@ -71,7 +95,16 @@ Deploy to Staging:
   extends: .base_deploy
   environment:
     name: staging
-    url: http://${CI_PROJECT_NAME}.${BASE_URL}
+    url: http://${CI_PROJECT_PATH_SLUG}.${BASE_URL}
+    kubernetes:
+      namespace: ${CI_PROJECT_PATH_SLUG}-staging
+  only:
+    refs:
+      - master
+      - main
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+
 
 Deploy to Production:
   extends: .base_deploy
@@ -82,6 +115,7 @@ Deploy to Production:
     - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "production")
 
 Cleanup:
+  extends: .base_werf
   stage: cleanup
   script:
     - werf cr login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_REPO}
