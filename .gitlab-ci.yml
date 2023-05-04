@@ -101,7 +101,7 @@ Deploy to Staging:
     KUBE_NAMESPACE: ${CI_PROJECT_PATH_SLUG}-staging
   extends: .base_deploy
   environment:
-    name: staging
+    name: SSstaging
     url: http://${CI_PROJECT_PATH_SLUG}.${BASE_URL}
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
