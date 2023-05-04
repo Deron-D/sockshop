@@ -25,7 +25,7 @@ variables:
 .deploy_script: &deploy_script
   - echo ${KUBE_NAMESPACE}
   - echo ${CI_REGISTRY}
-  - echo ${CI_REGISTRY_USER}"
+  - echo ${CI_REGISTRY_USER}
   - |
     werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
     werf kubectl config current-context
