@@ -23,12 +23,17 @@ variables:
     - *init_werf_script
 
 .deploy_script: &deploy_script
+  - echo ${KUBE_NAMESPACE}
+  - echo ${CI_REGISTRY}
+  - echo ${CI_REGISTRY_USER}"
   - |
     werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
     werf kubectl config current-context
+  - |
+    werf kubectl create namespace ${KUBE_NAMESPACE} || true
     werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
     werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [ { "name": "gitlab-credentials" } ] }'
-    werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+  - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
 
 .base_deploy:
   extends: .base_werf
@@ -107,7 +112,8 @@ Deploy to Production:
     name: production
     url: https://production.${BASE_URL}
   rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "production")
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "production"
 
 Cleanup:
   extends: .base_werf
