@@ -23,7 +23,7 @@ variables:
     - *init_werf_script
 
 .deploy_script: &deploy_script
-  - echo ${KUBE_NAMESPACE}
+  - echo $KUBE_NAMESPACE
   - echo ${CI_REGISTRY}
   - echo ${CI_REGISTRY_USER}
   - |
