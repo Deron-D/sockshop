@@ -9,7 +9,7 @@ prometheus:
             requests:
               storage: 10Gi
     shards: null
-   ingress:
+  ingress:
     enabled: true
     ingressClassName: nginx
     hosts:
@@ -48,5 +48,3 @@ alertmanager:
         resources:
           requests:
             storage: 10Gi
-
-
