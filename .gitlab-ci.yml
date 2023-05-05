@@ -81,7 +81,7 @@ Deploy Monitoring:
   stage: init
   script:
     - *context_script
-    -
+    - *monitoring_script
   when: manual
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
