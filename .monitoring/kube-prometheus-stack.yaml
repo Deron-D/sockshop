@@ -1,0 +1,52 @@
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: yc-network-hdd
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+    shards: null
+   ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.158.160.45.164.sslip.io
+
+grafana:
+  adminPassword: ""
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.158.160.45.164.sslip.io
+
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
+    patch:
+      enabled: false
+  tlsProxy:
+    enabled: false
+  tls:
+    enabled: false
+
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - alertmanager.158.160.45.164.sslip.io
+
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: yc-network-hdd
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+
+

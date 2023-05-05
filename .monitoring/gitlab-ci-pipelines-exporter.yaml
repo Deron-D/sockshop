@@ -1,0 +1,27 @@
+config:
+  gitlab:
+    url: https://gitlab.158.160.45.164.sslip.io
+    token: ""
+    enable_health_check: false
+    enable_tls_verify: false
+    health_url: https://gitlab.158.160.45.164.sslip.io/users/sign_in
+  projects:
+    - name: gitlab-instance-711bf56d/sockshop
+      pull:
+        refs:
+          branches:
+            regexp: ".*"
+          tags:
+            enabled: false
+          merge_requests:
+            enabled: true
+
+  project_defaults:
+    pull:
+      refs:
+        branches:
+          regexp: ".*"
+        tags:
+          enabled: false
+        merge_requests:
+          enabled: true
