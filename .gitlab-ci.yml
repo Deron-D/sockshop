@@ -1,9 +1,9 @@
 stages:
   - initial
-  - build
-  - deploy
-  - dismiss
-  - cleanup
+#  - build
+#  - deploy
+#  - dismiss
+#  - cleanup
 
 variables:
   WERF_IMAGES_REPO_MODE: monorepo
