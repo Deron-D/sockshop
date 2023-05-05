@@ -32,7 +32,7 @@ variables:
     werf kubectl config current-context
 
 .monitoring_script: &monitoring_script
-  - werf kubectl create namespace ${NAMESPACE} --dry-run -o yaml | kubectl apply -f -
+  - werf kubectl create namespace ${MONITORING_NAMESPACE} || true
   - |
     werf helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
     werf helm repo add mvisonneau https://charts.visonneau.fr
