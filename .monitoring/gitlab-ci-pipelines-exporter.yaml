@@ -25,3 +25,4 @@ config:
           enabled: false
         merge_requests:
           enabled: true
+
