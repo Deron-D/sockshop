@@ -17,16 +17,8 @@ spec:
               number: 80
         path: /
         pathType: Prefix
-#    {{- if .Values.host }}
-#    host: {{ template "host" . }}
-#    {{- end }}
     host: {{ .Values.global.envUrl }}
-#  {{- if .Values.ingress.tlsSecretName }}
   tls:
-  - secretName: {{ .Values.global.envUrl }}-tls
-#   {{- if .Values.host }}
+  - secretName: {{ .Values.global.envUrl }}
     hosts:
       - {{ .Values.global.envUrl }}
-#   - {{ template "host" . }}
-#   {{- end }}
-# {{- end }}

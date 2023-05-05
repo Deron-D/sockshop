@@ -88,7 +88,7 @@ Deploy to Staging:
   extends: .base_deploy
   environment:
     name: staging
-    url: http://${CI_PROJECT_NAME}.${BASE_URL}
+    url: http://${CI_PROJECT_NAME}-staging.${BASE_URL}
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
@@ -96,7 +96,7 @@ Deploy to Production:
   extends: .base_deploy
   environment:
     name: production
-    url: https://production.${BASE_URL}
+    url: https://${CI_PROJECT_NAME}-production.${BASE_URL}
     kubernetes:
       namespace: ${CI_PROJECT_PATH_SLUG}-production
   rules:
