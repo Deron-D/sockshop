@@ -1,5 +1,5 @@
 stages:
-  - init
+  - initial
   - build
   - deploy
   - dismiss
@@ -32,22 +32,22 @@ variables:
     werf kubectl config current-context
 
 .monitoring_script: &monitoring_script
-  - kubectl create namespace ${NAMESPACE} --dry-run -o yaml | kubectl apply -f -
+  - werf kubectl create namespace ${NAMESPACE} --dry-run -o yaml | kubectl apply -f -
   - |
-    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-    helm repo add mvisonneau https://charts.visonneau.fr
-    helm repo update prometheus-community
-    helm repo update mvisonneau
+    werf helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    werf helm repo add mvisonneau https://charts.visonneau.fr
+    werf helm repo update prometheus-community
+    werf helm repo update mvisonneau
   - >-
-    helm upgrade --install prometheus prometheus-community/kube-prometheus-stack
+    werf helm upgrade --install prometheus prometheus-community/kube-prometheus-stack
     --version ${KUBE_PROMETHEUS_STACK_VERSION} 
     -n ${MONITORING_NAMESPACE}
     --set namespaceOverride=${MONITORING_NAMESPACE}
     --set grafana.adminPassword=${GRAFANA_ADMIN_PASSWORD}
     -f ./.monitoring/kube-prometheus-stack.yaml
-  - helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n ${MONITORING_NAMESPACE}
+  - werf helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n ${MONITORING_NAMESPACE}
   - >-
-    helm upgrade --install gitlab-ci-pipelines-exporter mvisonneau/gitlab-ci-pipelines-exporter
+    werf helm upgrade --install gitlab-ci-pipelines-exporter mvisonneau/gitlab-ci-pipelines-exporter
     -n ${MONITORING_NAMESPACE}
     --set config.gitlab.token=${GRAFANA_GITLAB_TOKEN}
     -f ./.monitoring/gitlab-ci-pipelines-exporter.yaml
@@ -78,7 +78,7 @@ variables:
 
 Deploy Monitoring:
   extends: .base_werf
-  stage: init
+  stage: initial
   script:
     - *context_script
     - *monitoring_script
