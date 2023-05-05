@@ -16,12 +16,20 @@ prometheus:
       - prometheus.158.160.45.164.sslip.io
 
 grafana:
-  adminPassword: ""
   ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/acme-challenge-type: http01
     enabled: true
     ingressClassName: nginx
     hosts:
       - grafana.158.160.45.164.sslip.io
+    tls:
+    - secretName: grafana.158.160.45.164.sslip.io
+      hosts:
+        - grafana.158.160.45.164.sslip.io
 
 prometheusOperator:
   admissionWebhooks:
