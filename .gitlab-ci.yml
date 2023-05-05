@@ -23,19 +23,17 @@ variables:
     - *init_werf_script
 
 .deploy_script: &deploy_script
-  - echo $KUBE_NAMESPACE
-  - echo ${CI_REGISTRY}
-  - echo ${CI_REGISTRY_USER}
   - |
     werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
     werf kubectl config current-context
-    werf kubectl get pods
-    env
   - |
     werf kubectl create namespace ${KUBE_NAMESPACE} || true
     werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
     werf kubectl -n ${KUBE_NAMESPACE} patch serviceaccount default -p '{"imagePullSecrets": [ { "name": "gitlab-credentials" } ] }'
-  - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+  - >
+    werf converge --skip-build
+    --set "global.envUrl=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    --set "global.app.namespace=${KUBE_NAMESPACE}"
 
 .base_deploy:
   extends: .base_werf
@@ -50,37 +48,6 @@ variables:
   dependencies:
     - Build and Publish
 
-#.base_development:
-#  extends:
-#    - .base_deploy
-#  environment:
-#    name: ${CI_COMMIT_REF_SLUG}
-#    url: ${URL_SCHEMA}://${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}.${URL_HOST}
-#    kubernetes:
-#      namespace: ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}
-#    on_stop: Stop Development
-#    auto_stop_in: 3 day
-
-#.dismiss_script: &dismiss_script
-#  - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace
-#
-#.base_dismiss:
-#  extends: .base_werf
-#  stage: dismiss
-#  script:
-#    - *dismiss_script
-#  variables:
-#    GIT_STRATEGY: none
-
-.cleanup:
-  extends: .base_werf
-  stage: cleanup
-  script:
-    - werf cleanup
-  only:
-    refs:
-      - schedules
-
 Build and Publish:
   extends: .base_werf
   stage: build
@@ -92,22 +59,26 @@ Build and Publish:
 Review:
   extends: .base_deploy
   environment:
-    name: review-${CI_MERGE_REQUEST_ID}
-    url: http://${CI_PROJECT_NAME}-${CI_MERGE_REQUEST_ID}.${BASE_URL}
+    name: ${CI_COMMIT_REF_SLUG}
+    url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.${BASE_URL}
     on_stop: Stop Review
     auto_stop_in: 1 day
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 Stop Review:
+  extends: .base_werf
+  variables:
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
+    GIT_STRATEGY: none
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
+    - werf kubectl config current-context
+    - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace --release=${KUBE_NAMESPACE}
   environment:
-    name: review-${CI_MERGE_REQUEST_ID}
+    name: ${CI_COMMIT_REF_SLUG}
     action: stop
-  variables:
-    GIT_STRATEGY: none
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   when: manual
@@ -118,9 +89,7 @@ Deploy to Staging:
     name: staging
     url: http://${CI_PROJECT_NAME}.${BASE_URL}
   rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
+    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 Deploy to Production:
   extends: .base_deploy
@@ -130,7 +99,7 @@ Deploy to Production:
     kubernetes:
       namespace: ${CI_PROJECT_PATH_SLUG}-production
   rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == "production"
+    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == "production" && $CI_COMMIT_TAG != null
 
 Cleanup:
   extends: .base_werf
@@ -138,6 +107,6 @@ Cleanup:
   script:
     - werf cr login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_REPO}
     - werf cleanup
-  when: always
-#  only: [schedules]
+  #  when: always
+  only: [schedules]
 
