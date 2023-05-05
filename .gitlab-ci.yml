@@ -38,7 +38,7 @@ variables:
     werf helm repo add mvisonneau https://charts.visonneau.fr
     werf helm repo update prometheus-community
     werf helm repo update mvisonneau
-  - >-
+  - >
     werf helm upgrade --install prometheus prometheus-community/kube-prometheus-stack
     --version ${KUBE_PROMETHEUS_STACK_VERSION} 
     -n ${MONITORING_NAMESPACE}
@@ -46,7 +46,7 @@ variables:
     --set grafana.adminPassword=${GRAFANA_ADMIN_PASSWORD}
     -f ./.monitoring/kube-prometheus-stack.yaml
   - werf helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n ${MONITORING_NAMESPACE}
-  - >-
+  - >
     werf helm upgrade --install gitlab-ci-pipelines-exporter mvisonneau/gitlab-ci-pipelines-exporter
     -n ${MONITORING_NAMESPACE}
     --set config.gitlab.token=${GRAFANA_GITLAB_TOKEN}
