@@ -4,6 +4,8 @@ Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-
 ## Services
 
 1. carts (Java)
+##### Важно! При успешной сборке, сервис `carts` валился с ошибкой при деплое. Для успешного запуска необходимо сделать реверт коммита https://github.com/microservices-demo/carts/commit/16b28bc773460bc24d0287dad5e0e0806f7b37ef
+
 2. catalogue (Go)
 3. catalogue-db (MySQL)
 4. front-end (Node.js)

@@ -1,4 +1,5 @@
 stages:
+  - init
   - build
   - deploy
   - dismiss
@@ -10,6 +11,9 @@ variables:
   GIT_SUBMODULE_DEPTH: 1
   DOCKER_REGISTRY: docker.io
   BASE_URL:  158.160.45.164.sslip.io
+  MONITORING_NAMESPACE: monitoring
+  KUBE_PROMETHEUS_STACK_VERSION: 41.0.0
+  GRAFANA_URL: 'https://grafana.${BASE_URL}/api/admin/users'
 
 .init_werf_script: &init_werf_script
   - source $(werf ci-env gitlab --as-file)
@@ -22,11 +26,33 @@ variables:
   before_script:
     - *init_werf_script
 
-.deploy_script: &deploy_script
+.context_script: &context_script
   - |
     werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
     werf kubectl config current-context
-    env
+
+.monitoring_script: &monitoring_script
+  - kubectl create namespace ${NAMESPACE} --dry-run -o yaml | kubectl apply -f -
+  - |
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    helm repo add mvisonneau https://charts.visonneau.fr
+    helm repo update prometheus-community
+    helm repo update mvisonneau
+  - >-
+    helm upgrade --install prometheus prometheus-community/kube-prometheus-stack
+    --version ${KUBE_PROMETHEUS_STACK_VERSION} 
+    -n ${MONITORING_NAMESPACE}
+    --set namespaceOverride=${MONITORING_NAMESPACE}
+    --set grafana.adminPassword=${GRAFANA_ADMIN_PASSWORD}
+    -f ./.monitoring/kube-prometheus-stack.yaml
+  - helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n ${MONITORING_NAMESPACE}
+  - >-
+    helm upgrade --install gitlab-ci-pipelines-exporter mvisonneau/gitlab-ci-pipelines-exporter
+    -n ${MONITORING_NAMESPACE}
+    --set config.gitlab.token=${GRAFANA_GITLAB_TOKEN}
+    -f ./.monitoring/gitlab-ci-pipelines-exporter.yaml
+
+.deploy_script: &deploy_script
   - |
     werf kubectl create namespace ${KUBE_NAMESPACE} || true
     werf kubectl -n ${KUBE_NAMESPACE} create secret docker-registry gitlab-credentials --docker-server="${CI_REGISTRY}" --docker-username="${CI_REGISTRY_USER}" --docker-password="${CI_REGISTRY_PASSWORD}" --docker-email="${GITLAB_USER_EMAIL}" -o yaml --dry-run=client | werf kubectl apply -f -
@@ -45,9 +71,21 @@ variables:
     name: ${CI_COMMIT_REF_SLUG}
     url: ${URL_SCHEMA}://${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}.${URL_HOST}
   script:
+    - *context_script
     - *deploy_script
   dependencies:
     - Build and Publish
+
+Deploy Monitoring:
+  extends: .base_werf
+  stage: init
+  script:
+    - *context_script
+    -
+  when: manual
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+
 
 Build and Publish:
   extends: .base_werf
