@@ -36,7 +36,7 @@ curl -sSLO https://werf.io/install.sh && chmod +x install.sh
 werf version
 ~~~
 
-- Запуск локальной сборки
+- Запуск локальной сборки с формированием отчета о результатах: `.werf-build-report.json`
 ~~~bash
 werf build --save-build-report --dev
 cat .werf-build-report.json 
@@ -140,36 +140,23 @@ cat .werf-build-report.json
 }
 ~~~
 
-- Развертывание кластера K8s
+# Развертывание кластера K8s с автоскалингом от 2 до 6 нод
 ~~~bash
 cd terraform-k8s
 terraform init
 terraform apply --auto-approve
 ~~~
 
-- Установка nginx-ingress
-
-~~~bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update ingress-nginx
-~~~
-~~~bash
-kubectl create ns nginx-ingress
-helm upgrade --install nginx-ingress-release ingress-nginx/ingress-nginx \
- --namespace=nginx-ingress --version="4.4.2"
-~~~
-~~~bash
-kubectl get pods -n nginx-ingress -o wide
-kubectl get svc -n nginx-ingress -o wide
-~~~
+- Резервирование внешнего IP LoadBalancer
 ~~~bash
 yc vpc address list                                       
-yc vpc address update --reserved=true e9b9sros5o79t35u2mgg
+yc vpc address update --reserved=true e9bj67r5dhu6rgimdm4g
 ~~~
 
+# Развертывание виртуальной машины с инстансом GitLab CI/CD версии 15.10.3 
 
 > https://cloud.yandex.com/en-ru/docs/tutorials/infrastructure-management/gitlab-containers
-- Развертывание GitLab CI
+
 ~~~bash
 cd gitlab-ci/terraform
 terraform init
@@ -190,15 +177,17 @@ ssh ubuntu@84.201.150.198 -i ~/.ssh/appuser
 ![img.png](img.png)
 
 
-# Установка GitLab Agent
+# Установка GitLab Agent 
 
 > https://cloud.yandex.ru/docs/managed-kubernetes/operations/applications/gitlab-agent
 > https://docs.gitlab.com/ee/user/clusters/agent/install/
 
-~~~bash
-kubectl apply -f gitlab-ci/gitlab-admin-service-account.yaml
-kubectl -n kube-system get secrets -o json | jq -r '.items[] | select(.metadata.name | startswith("gitlab-admin")) | .data.token' | base64 --decode
-~~~
+- Берем токен для установки GitLab Agent `k8s-4otus-agent` в соответствии с содержимым [.gitlab/agents/k8s-4otus-agent/config.yaml](.gitlab/agents/k8s-4otus-agent/config.yaml)
+
+![img_1.png](img_1.png)
+
+
+- Прописываем полученный токен в установку 
 ~~~bash
 helm repo add gitlab https://charts.gitlab.io
 helm repo update gitlab
@@ -206,27 +195,37 @@ helm upgrade --install k8s-4otus-agent gitlab/gitlab-agent \
     --namespace gitlab-agent-k8s-4otus-agent \
     --create-namespace \
     --set image.tag=v15.10.0 \
-    --set config.token='' \
+    --set config.token='TOKEN' \
     --set config.kasAddress=wss://gitlab.84.201.150.198.sslip.io/-/kubernetes-agent/
 ~~~
 
 ~~~bash
 kubectl get pods --namespace gitlab-agent-k8s-4otus-agent
 ~~~
+~~~console
+NAME                                            READY   STATUS    RESTARTS   AGE
+k8s-4otus-agent-gitlab-agent-7dc7d95b7c-8qv9l   1/1     Running   0          36s
+~~~
 
-# Create a GitLab Runner
+# Установка GitLab Runner
+
+- Забираем токен для установки раннера
+![img_3.png](img_3.png)
 
 ~~~bash
 helm repo add gitlab https://charts.gitlab.io
 ~~~
 
+- Производим установку раннера в нашем кластере k8s для исполнения джобов CI/CD
 ~~~bash
-#export RUNNER_TOKEN=TOKEN
+export RUNNER_TOKEN=`TOKEN`
 helm upgrade --install --namespace default gitlab-runner -f gitlab-ci/runner/values.yaml --set runnerRegistrationToken=$RUNNER_TOKEN gitlab/gitlab-runner
 ~~~
-
 ~~~bash
 kubectl get pods -n default | grep gitlab-runner
+~~~
+~~~console
+gitlab-runner-9765bc5f8-lzqlb   1/1     Running   0          2m23s
 ~~~
 
 

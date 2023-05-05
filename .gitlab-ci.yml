@@ -9,7 +9,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_DEPTH: 1
   DOCKER_REGISTRY: docker.io
-  BASE_URL: 62.84.114.132.sslip.io
+  BASE_URL:  158.160.45.164.sslip.io
 
 .init_werf_script: &init_werf_script
   - source $(werf ci-env gitlab --as-file)

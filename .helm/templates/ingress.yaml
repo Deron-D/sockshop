@@ -21,11 +21,12 @@ spec:
 #    host: {{ template "host" . }}
 #    {{- end }}
     host: {{ .Values.global.envUrl }}
-  {{- if .Values.ingress.tlsSecretName }}
+#  {{- if .Values.ingress.tlsSecretName }}
   tls:
-  - secretName: {{ .Values.ingress.tlsSecretName }}
-    {{- if .Values.host }}
+  - secretName: {{ .Values.global.envUrl }}-tls
+#   {{- if .Values.host }}
     hosts:
-    - {{ template "host" . }}
-    {{- end }}
-  {{- end }}
+      - {{ .Values.global.envUrl }}
+#   - {{ template "host" . }}
+#   {{- end }}
+# {{- end }}

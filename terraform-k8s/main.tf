@@ -72,7 +72,7 @@ resource "yandex_kubernetes_node_group" "default-pool" {
 
 
   provisioner "local-exec" {
-    command = "yc managed-kubernetes cluster get-credentials $CLUSTER_NAME --external --force --folder-id $FOLDER_ID"
+    command = "./bootstrap.sh"
     environment = {
       CLUSTER_NAME = var.cluster_name
       FOLDER_ID    = var.folder_id
