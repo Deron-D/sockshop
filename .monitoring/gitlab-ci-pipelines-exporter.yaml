@@ -6,7 +6,7 @@ config:
     enable_tls_verify: false
     health_url: https://gitlab.158.160.45.164.sslip.io/users/sign_in
   projects:
-    - name: gitlab-instance-711bf56d/sockshop
+    - name: 2
       pull:
         refs:
           branches:
