@@ -3,5 +3,9 @@ loki:
     replication_factor: 1
   storage:
     type: 'filesystem'
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: null
 singleBinary:
   replicas: 1
