@@ -109,9 +109,10 @@ Build and Publish:
   stage: build
   script:
     - werf build
+  when: always
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
-      when: always
+
 
 Review:
   extends: .base_deploy
