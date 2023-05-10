@@ -104,7 +104,6 @@ Deploy Logging:
     - Build and Publish
 
 
-
 Build and Publish:
   extends: .base_werf
   stage: build
@@ -112,6 +111,7 @@ Build and Publish:
     - werf build
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: always
 
 Review:
   extends: .base_deploy
