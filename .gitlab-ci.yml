@@ -75,8 +75,10 @@ Deploy Monitoring:
   script:
     - *context_script
     - *monitoring_script
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule" && 'CI_COMMIT_BRANCH =~ /^observability\/.*$/'
+  only:
+    - /^observability\/.*$/'
+  except:
+    - schedules
 
 Deploy Logging:
   extends: .base_werf
@@ -84,8 +86,10 @@ Deploy Logging:
   script:
     - *context_script
     - *logging_script
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule" && 'CI_COMMIT_BRANCH =~ /^observability\/.*$/'
+  only:
+    - /^observability\/.*$/'
+  except:
+    - schedules
 
 .base_deploy:
   extends: .base_werf
