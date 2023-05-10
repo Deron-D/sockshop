@@ -86,15 +86,13 @@ alertmanager:
       group_interval: 5m
       repeat_interval: 3h
 
-      receiver: discord
-
       routes:
-        - receiver: "discord"
+      - receiver: "discord"
 
     receivers:
-      - name: "discord"
-        slack_configs:
-          - channel: 'alerts'
-            username: "Alert"
-            api_url: 'https://discord.com/api/webhooks/1105847327891140659/u_UpRLJ6rvOQMSfrh5Ma_OvU8lfAjxGKuHFw3bA-FeOs3i3ccTy_xjx0OUR3nLx3MYaq/slack'
+    - name: "discord"
+      slack_configs:
+      - channel: 'alerts'
+        username: "Alert"
+        api_url: 'https://discord.com/api/webhooks/1105847327891140659/u_UpRLJ6rvOQMSfrh5Ma_OvU8lfAjxGKuHFw3bA-FeOs3i3ccTy_xjx0OUR3nLx3MYaq/slack'
 
