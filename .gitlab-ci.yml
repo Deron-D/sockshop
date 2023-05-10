@@ -1,5 +1,4 @@
 stages:
-  - initial
   - build
   - deploy
   - dismiss
@@ -71,23 +70,19 @@ variables:
 
 Deploy Monitoring:
   extends: .base_werf
-  stage: initial
+  stage: deploy
   script:
     - *context_script
     - *monitoring_script
-  only:
-    - /^observability\/.*$/'
   except:
     - schedules
 
 Deploy Logging:
   extends: .base_werf
-  stage: initial
+  stage: deploy
   script:
     - *context_script
     - *logging_script
-  only:
-    - /^observability\/.*$/'
   except:
     - schedules
 
@@ -166,6 +161,5 @@ Cleanup:
   script:
     - werf cr login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_REPO}
     - werf cleanup
-  #  when: always
   only: [schedules]
 

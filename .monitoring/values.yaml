@@ -22,6 +22,14 @@ prometheus:
     - secretName: prometheus.158.160.45.164.sslip.io
       hosts:
         - prometheus.158.160.45.164.sslip.io
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: yc-network-hdd
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
 
 grafana:
   ingress:
@@ -70,12 +78,23 @@ alertmanager:
       - secretName: alertmanager.158.160.45.164.sslip.io
         hosts:
           - alertmanager.158.160.45.164.sslip.io
+  config:
+    route:
+      group_by: [ 'alertname', 'job' ]
 
-  storage:
-    volumeClaimTemplate:
-      spec:
-        storageClassName: yc-network-hdd
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 10Gi
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+
+      receiver: discord
+
+      routes:
+        - receiver: "discord"
+
+    receivers:
+      - name: "discord"
+        slack_configs:
+          - channel: 'alerts'
+            username: "Alert"
+            api_url: 'https://discord.com/api/webhooks/1105847327891140659/u_UpRLJ6rvOQMSfrh5Ma_OvU8lfAjxGKuHFw3bA-FeOs3i3ccTy_xjx0OUR3nLx3MYaq/slack'
+
