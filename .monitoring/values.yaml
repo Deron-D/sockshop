@@ -29,31 +29,14 @@ grafana:
     - secretName: grafana.158.160.45.164.sslip.io
       hosts:
         - grafana.158.160.45.164.sslip.io
-  ## Configure additional grafana datasources (passed through tpl)
-  ## ref: http://docs.grafana.org/administration/provisioning/#datasources
   additionalDataSources:
     - name: Loki
       access: proxy
-      #   basicAuth: true
-      #   basicAuthPassword: pass
-      #   basicAuthUser: daco
-      #   editable: false
       jsonData:
         maxLines: 1000
-      #   orgId: 1
       type: loki
       url: http://loki-stack.logging.svc:3100
       version: 1
-
-#    datasources.yaml:
-#      apiVersion: 1
-#      datasources:
-#        - name: Loki
-#          type: loki
-#          access: proxy
-#          url: http://loki-stack.logging.svc:3100
-#          jsonData:
-#            maxLines: 1000
 
 prometheusOperator:
   admissionWebhooks:

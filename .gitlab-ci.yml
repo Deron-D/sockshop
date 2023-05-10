@@ -12,8 +12,9 @@ variables:
   DOCKER_REGISTRY: docker.io
   BASE_URL:  158.160.45.164.sslip.io
   MONITORING_NAMESPACE: monitoring
+  LOGGING_NAMESPACE: logging
   KUBE_PROMETHEUS_STACK_VERSION: 44.4.1
-  LOKI_VERSION: 5.5.0
+  LOKI_STACK_VERSION: 2.9.10
   GRAFANA_URL: 'https://grafana.${BASE_URL}/api/admin/users'
 
 .init_werf_script: &init_werf_script
@@ -36,9 +37,7 @@ variables:
   - werf kubectl create namespace ${MONITORING_NAMESPACE} || true
   - |
     werf helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-    werf helm repo add mvisonneau https://charts.visonneau.fr
     werf helm repo update prometheus-community
-    werf helm repo update mvisonneau
   - >
     werf helm upgrade --install prometheus prometheus-community/kube-prometheus-stack
     --version ${KUBE_PROMETHEUS_STACK_VERSION} 
@@ -47,6 +46,18 @@ variables:
     --set grafana.adminPassword=${GRAFANA_ADMIN_PASSWORD}
     -f ./.monitoring/values.yaml
   - werf helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n ${MONITORING_NAMESPACE}
+
+.logging_script: &logging_script
+  - werf kubectl create namespace ${LOGGING_NAMESPACE} || true
+  - |
+    werf helm repo add grafana https://grafana.github.io/helm-charts
+    werf helm repo update grafana
+  - >
+    werf helm upgrade --install loki-stack grafana/loki-stack
+    --version ${LOKI_STACK_VERSION} 
+    -n ${LOGGING_NAMESPACE}
+    --set namespaceOverride=${LOGGING_NAMESPACE}
+    -f ./.logging/values.yaml
 
 .deploy_script: &deploy_script
   - |
@@ -67,6 +78,16 @@ Deploy Monitoring:
   when: manual
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
+
+Deploy Logging:
+  extends: .base_werf
+  stage: initial
+  script:
+    - *context_script
+    - *logging_script
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: manual
 
 #.base_deploy:
 #  extends: .base_werf
