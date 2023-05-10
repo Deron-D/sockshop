@@ -1,9 +1,9 @@
 stages:
   - initial
-#  - build
-#  - deploy
-#  - dismiss
-#  - cleanup
+  - build
+  - deploy
+  - dismiss
+  - cleanup
 
 variables:
   WERF_IMAGES_REPO_MODE: monorepo
@@ -89,81 +89,81 @@ Deploy Logging:
     - if: $CI_PIPELINE_SOURCE != "schedule"
       when: manual
 
-#.base_deploy:
-#  extends: .base_werf
-#  variables:
-#    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
-#  stage: deploy
-#  environment:
-#    name: ${CI_COMMIT_REF_SLUG}
-#    url: ${URL_SCHEMA}://${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}.${URL_HOST}
-#  script:
-#    - *context_script
-#    - *deploy_script
-#  dependencies:
-#    - Build and Publish
-#
-#
-#
-#Build and Publish:
-#  extends: .base_werf
-#  stage: build
-#  script:
-#    - werf build
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE != "schedule"
-#
-#Review:
-#  extends: .base_deploy
-#  environment:
-#    name: ${CI_COMMIT_REF_SLUG}
-#    url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.${BASE_URL}
-#    on_stop: Stop Review
-#    auto_stop_in: 1 day
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-#
-#Stop Review:
-#  extends: .base_werf
-#  variables:
-#    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
-#    GIT_STRATEGY: none
-#  stage: dismiss
-#  script:
-#    - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
-#    - werf kubectl config current-context
-#    - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace --release=${KUBE_NAMESPACE}
-#  environment:
-#    name: ${CI_COMMIT_REF_SLUG}
-#    action: stop
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-#  when: manual
-#
-#Deploy to Staging:
-#  extends: .base_deploy
-#  environment:
-#    name: staging
-#    url: http://${CI_PROJECT_NAME}-staging.${BASE_URL}
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#
-#Deploy to Production:
-#  extends: .base_deploy
-#  environment:
-#    name: production
-#    url: https://${CI_PROJECT_NAME}-production.${BASE_URL}
-#    kubernetes:
-#      namespace: ${CI_PROJECT_PATH_SLUG}-production
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_TAG != null
-#
-#Cleanup:
-#  extends: .base_werf
-#  stage: cleanup
-#  script:
-#    - werf cr login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_REPO}
-#    - werf cleanup
-#  #  when: always
-#  only: [schedules]
+.base_deploy:
+  extends: .base_werf
+  variables:
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
+  stage: deploy
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: ${URL_SCHEMA}://${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}.${URL_HOST}
+  script:
+    - *context_script
+    - *deploy_script
+  dependencies:
+    - Build and Publish
+
+
+
+Build and Publish:
+  extends: .base_werf
+  stage: build
+  script:
+    - werf build
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+
+Review:
+  extends: .base_deploy
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: http://${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}.${BASE_URL}
+    on_stop: Stop Review
+    auto_stop_in: 1 day
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+Stop Review:
+  extends: .base_werf
+  variables:
+    KUBE_NAMESPACE: ${CI_PROJECT_NAME}-${CI_ENVIRONMENT_NAME}
+    GIT_STRATEGY: none
+  stage: dismiss
+  script:
+    - werf kubectl config use-context gitlab-instance-711bf56d/sockshop:k8s-4otus-agent
+    - werf kubectl config current-context
+    - werf dismiss --namespace ${KUBE_NAMESPACE} --with-namespace --release=${KUBE_NAMESPACE}
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    action: stop
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  when: manual
+
+Deploy to Staging:
+  extends: .base_deploy
+  environment:
+    name: staging
+    url: http://${CI_PROJECT_NAME}-staging.${BASE_URL}
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+Deploy to Production:
+  extends: .base_deploy
+  environment:
+    name: production
+    url: https://${CI_PROJECT_NAME}-production.${BASE_URL}
+    kubernetes:
+      namespace: ${CI_PROJECT_PATH_SLUG}-production
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_TAG != null
+
+Cleanup:
+  extends: .base_werf
+  stage: cleanup
+  script:
+    - werf cr login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_REPO}
+    - werf cleanup
+  #  when: always
+  only: [schedules]
 
