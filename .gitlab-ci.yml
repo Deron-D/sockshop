@@ -76,7 +76,7 @@ Deploy Monitoring:
     - *context_script
     - *monitoring_script
   rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule" && CI_COMMIT_BRANCH =~ /^observability\/.*$/
+    - if: $CI_PIPELINE_SOURCE != "schedule" && 'CI_COMMIT_BRANCH =~ /^observability\/.*$/'
       when: always
 
 Deploy Logging:
@@ -86,7 +86,7 @@ Deploy Logging:
     - *context_script
     - *logging_script
   rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule" && CI_COMMIT_BRANCH =~ /^observability\/.*$/
+    - if: $CI_PIPELINE_SOURCE != "schedule" && 'CI_COMMIT_BRANCH =~ /^observability\/.*$/'
       when: always
 
 .base_deploy:
