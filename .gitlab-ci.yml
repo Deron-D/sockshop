@@ -45,7 +45,7 @@ variables:
     -n ${MONITORING_NAMESPACE}
     --set namespaceOverride=${MONITORING_NAMESPACE}
     --set grafana.adminPassword=${GRAFANA_ADMIN_PASSWORD}
-    -f ./.monitoring/kube-prometheus-stack.yaml
+    -f ./.monitoring/values.yaml
   - werf helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n ${MONITORING_NAMESPACE}
 
 .deploy_script: &deploy_script
