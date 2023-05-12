@@ -151,7 +151,7 @@ Deploy to Production:
   extends: .base_deploy
   environment:
     name: production
-    url: https://${CI_PROJECT_NAME}-production.51.250.91.225.nip.io
+    url: https://${CI_PROJECT_NAME}-production.${BASE_URL}
     kubernetes:
       namespace: ${CI_PROJECT_PATH_SLUG}-production
   rules:
