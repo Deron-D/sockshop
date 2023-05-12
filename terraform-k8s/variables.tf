@@ -53,11 +53,11 @@ variable "service_account_id" {
 }
 variable "cores" {
   description = "VM cores"
-  default     = 2
+  default     = 4
 }
 variable "memory" {
   description = "VM memory"
-  default     = 8
+  default     = 16
 }
 variable "disk_type" {
   description = "Disk storage classes"

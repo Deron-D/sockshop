@@ -17,11 +17,11 @@ prometheus:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       cert-manager.io/acme-challenge-type: http01
     hosts:
-      - prometheus.158.160.45.164.sslip.io
+      - prometheus.51.250.91.225.sslip.io
     tls:
-    - secretName: prometheus.158.160.45.164.sslip.io
+    - secretName: prometheus.51.250.91.225.sslip.io
       hosts:
-        - prometheus.158.160.45.164.sslip.io
+        - prometheus.51.250.91.225.sslip.io
   storage:
     volumeClaimTemplate:
       spec:
@@ -40,11 +40,11 @@ grafana:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       cert-manager.io/acme-challenge-type: http01
     hosts:
-      - grafana.158.160.45.164.sslip.io
+      - grafana.51.250.91.225.sslip.io
     tls:
-    - secretName: grafana.158.160.45.164.sslip.io
+    - secretName: grafana.51.250.91.225.sslip.io
       hosts:
-        - grafana.158.160.45.164.sslip.io
+        - grafana.51.250.91.225.sslip.io
   additionalDataSources:
     - name: Loki
       access: proxy
@@ -73,11 +73,11 @@ alertmanager:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       cert-manager.io/acme-challenge-type: http01
     hosts:
-      - alertmanager.158.160.45.164.sslip.io
+      - alertmanager.51.250.91.225.sslip.io
     tls:
-      - secretName: alertmanager.158.160.45.164.sslip.io
+      - secretName: alertmanager.51.250.91.225.sslip.io
         hosts:
-          - alertmanager.158.160.45.164.sslip.io
+          - alertmanager.51.250.91.225.sslip.io
   config:
     route:
       group_by: [ 'alertname', 'job' ]

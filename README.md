@@ -165,6 +165,7 @@ terraform apply --auto-approve
 
 - Резервирование внешнего IP LoadBalancer
 ~~~bash
+kubectl get svc -n nginx-ingress
 yc vpc address list                                       
 yc vpc address update --reserved=true e9bj67r5dhu6rgimdm4g
 ~~~
@@ -234,7 +235,7 @@ helm repo add gitlab https://charts.gitlab.io
 
 - Производим установку раннера в нашем кластере k8s для исполнения джобов CI/CD
 ~~~bash
-export RUNNER_TOKEN=`TOKEN`
+export RUNNER_TOKEN=`GR1348941TzZ-VMohax6aBhy7pwAy`
 helm upgrade --install --namespace default gitlab-runner -f gitlab-ci/runner/values.yaml --set runnerRegistrationToken=$RUNNER_TOKEN gitlab/gitlab-runner
 ~~~
 ~~~bash

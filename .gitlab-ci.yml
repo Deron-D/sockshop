@@ -9,7 +9,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_DEPTH: 1
   DOCKER_REGISTRY: docker.io
-  BASE_URL:  158.160.45.164.sslip.io
+  BASE_URL:  51.250.91.225.sslip.io
   MONITORING_NAMESPACE: monitoring
   LOGGING_NAMESPACE: logging
   KUBE_PROMETHEUS_STACK_VERSION: 44.4.1
@@ -74,6 +74,7 @@ Deploy Monitoring:
   script:
     - *context_script
     - *monitoring_script
+  when: manual
   except:
     - schedules
 
@@ -83,6 +84,7 @@ Deploy Logging:
   script:
     - *context_script
     - *logging_script
+  when: manual
   except:
     - schedules
 
