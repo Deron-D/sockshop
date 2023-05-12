@@ -17,7 +17,6 @@ Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-
 | `user`         | `Go`                       |                                                                                                                                                                                                                              |
 | `user-db`      | `MongoDB`                  |                                                                                                                                                                                                                              |
 
-
 # Ресурсы проекта
 | Resource                             | URL                                                                      | Credentinals          |
 |:-------------------------------------|:-------------------------------------------------------------------------|:----------------------|
@@ -314,7 +313,6 @@ Pipeline развёртывания в review-окружение может бы
 
 В ходе проекта настроена интеграция AlertManager и Discord
 ![img_5.png](img_5.png)
-
 
 
 ### Полезное
