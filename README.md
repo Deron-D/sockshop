@@ -21,13 +21,14 @@ Sock Shop : A Microservice Demo Application. https://github.com/otus-kuber-2022-
 | Resource                             | URL                                                                      | Credentinals          |
 |:-------------------------------------|:-------------------------------------------------------------------------|:----------------------|
 | `GitLab 15.10.3`                     | https://gitlab.84.201.150.198.sslip.io/gitlab-instance-711bf56d/sockshop | otus:m5GScszUiThWzNv  |
-| `Sock Shop` - окружение 'production' | https://sockshop-production.51.250.91.225.sslip.io/                     |                       |
-| `Sock Shop` - окружение 'stage'      | https://sockshop-staging.51.250.91.225.sslip.io/                        |                       |
-| `Sock Shop` - окружение 'review'     | https://sockshop-review-test-deploy.51.250.91.225.sslip.io/                        |                       |
-| `Prometheus`                         | https://prometheus.51.250.91.225.sslip.io/                              |                       |
-| `Alertmanager`                       | https://alertmanager.51.250.91.225.sslip.io/#/alerts                    |                       |
-| `Grafana`                            | https://grafana.51.250.91.225.sslip.io/                                 | otus:m5GScszUiThWzNv  |
-| `Loki`                               | https://grafana.51.250.91.225.sslip.io/explore?orgId=1                  | otus:m5GScszUiThWzNv  |
+| `Sock Shop` - окружение 'production' | https://sockshop-production.51.250.91.225.sslip.io/                      |                       |
+| `Sock Shop` - окружение 'stage'      | https://sockshop-staging.51.250.91.225.sslip.io/                         |                       |
+| `Sock Shop` - окружение 'review'     | https://sockshop-review-test-deploy.51.250.91.225.sslip.io/              |                       |
+| `Prometheus`                         | https://prometheus.51.250.91.225.sslip.io/                               |                       |
+| `Alertmanager`                       | https://alertmanager.51.250.91.225.sslip.io/#/alerts                     |                       |
+| `Grafana`                            | https://grafana.51.250.91.225.sslip.io/                                  | otus:m5GScszUiThWzNv  |
+| `Loki`                               | https://grafana.51.250.91.225.sslip.io/explore?orgId=1                   | otus:m5GScszUiThWzNv  |
+| `Jaeger`                             | https://jaeger.51.250.91.225.sslip.io/                                   |                       |
 
 
 # CI 

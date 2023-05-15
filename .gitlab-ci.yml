@@ -58,6 +58,9 @@ variables:
     --set namespaceOverride=${LOGGING_NAMESPACE}
     -f ./.logging/values.yaml
 
+.tracing_script: &tracing_script
+  - werf kubectl apply -f .tracing/jaeger.yaml
+
 .deploy_script: &deploy_script
   - |
     werf kubectl create namespace ${KUBE_NAMESPACE} || true
@@ -87,6 +90,17 @@ Deploy Logging:
   when: manual
   except:
     - schedules
+
+Deploy Tracing:
+  extends: .base_werf
+  stage: deploy
+  script:
+    - *context_script
+    - *tracing_script
+  when: manual
+  except:
+    - schedules
+
 
 .base_deploy:
   extends: .base_werf
