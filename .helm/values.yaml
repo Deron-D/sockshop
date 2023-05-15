@@ -206,18 +206,8 @@ zipkincron:
             memory: 300Mi
 
 zipkin:
-    image:
-        repo: openzipkin/zipkin
-        tag: 2.21
-    resources:
-        limits:
-            cpu: 300m
-            memory: 1000Mi
-        requests:
-            cpu: 100m
-            memory: 300Mi
-    enabled:  false
-    url: zipkin.zipkin.svc.cluster.local
+    enabled:  true
+    url: zipkin.jaeger.svc.cluster.local
 
 zipkinmysql:
     image:
